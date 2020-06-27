@@ -65,7 +65,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
                 'title': 'Thanks for installing me!',
                 'body': f'You are the best! @{sender_name}'
             },
-            oauth_token=installation_access_token["token"]
+            oauth_token=installation_access_token["token"],
         )
         issue_url = response["url"]
         await gh.patch(issue_url,
