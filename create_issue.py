@@ -12,10 +12,9 @@ async def main():
             oauth_token=os.getenv("GH_AUTH")
         )
         response = await gh.post(
-            '/repos/mezgoodle/hello-github-actions/issues',
+            '/repos/mezgoodle/hello-github-actions/issues/7/comments',
             data={
-                'title': 'We got a problems',
-                'body': 'Use more emojies!',
+                'body': 'I did!',
             }
         )
         print(f"Issue created at {response['html_url']}")
