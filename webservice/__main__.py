@@ -69,9 +69,8 @@ async def repo_installation_added(event, gh, *args, **kwargs):
         )
         issue_url = response["url"]
         await gh.patch(issue_url,
-                       data={"state": "closed",
-                             oauth_token=installation_access_token["token"]
-                             }
+                       data={"state": "closed"},
+                       oauth_token=installation_access_token["token"],
                        )
 
 
