@@ -63,7 +63,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
             f'/repos/{repo_full_name}/issues',
             data={
                 'title': 'Thanks for installing me!',
-                'body': f'You are the best! @{sender_name}'
+                'body': f'You are the best! @{sender_name}\n Also my creator is @mezgoodle. There you can find my body)'
             },
             oauth_token=installation_access_token["token"],
         )
