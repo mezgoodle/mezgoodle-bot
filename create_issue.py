@@ -11,13 +11,10 @@ async def main():
             "mezgoodle",
             oauth_token=os.getenv("GH_AUTH")
         )
-        response = await gh.post(
-            '/repos/mezgoodle/hello-github-actions/issues/7/comments',
-            data={
-                'body': 'I did!',
-            }
+        response = await gh.patch(
+            '/repos/mezgoodle/hello-github-actions/issues/7',
+            data={'state': 'closed'},
         )
-        print(f"Issue created at {response['html_url']}")
 
 
 asyncio.run(main())
