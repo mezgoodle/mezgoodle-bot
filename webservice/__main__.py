@@ -110,11 +110,12 @@ async def issue_comment_created(event, gh, *args, **kwargs):
     )
     comment_id = event.data['comment']['id']
     comments_url = event.data["issue"]["comments_url"]
-    response = await gh.post(
-        f'{comments_url}/{comment_id}/reactions',
-        data={'content': 'heart'},
-        oauth_token=installation_access_token["token"],
-    )
+    if username == "mezgoodle":
+        response = await gh.post(
+            f'{comments_url}/{comment_id}/reactions',
+            data={'content': 'heart'},
+            oauth_token=installation_access_token["token"],
+        )
 
 
 if __name__ == "__main__":  # pragma: no cover
