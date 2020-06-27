@@ -55,16 +55,18 @@ async def repo_installation_added(event, gh, *args, **kwargs):
         app_id=os.environ.get("GH_APP_ID"),
         private_key=os.environ.get("GH_PRIVATE_KEY")
     )
-    repo_full_name = event.data["repositories"][0]["full_name"]
     sender_name = event.data["sender"]["login"]
-    await gh.post(
-        f'/repos/{repo_full_name}/issues',
-        data={
-            'title': 'Thanks for installing me!',
-            'body': f'You are the best! @{sender_name}'
-        },
-        oauth_token=installation_access_token
-    )
+    for repo in event.data["repositories"]:
+
+        repo_full_name = repo["full_name"]
+        response = await gh.post(
+            f'/repos/{repo_full_name}/issues',
+            data={
+                'title': 'Thanks for installing me!',
+                'body': f'You are the best! @{sender_name}'
+            },
+            oauth_token=installation_access_token
+        )
 
 
 if __name__ == "__main__":  # pragma: no cover
