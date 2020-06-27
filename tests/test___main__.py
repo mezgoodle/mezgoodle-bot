@@ -7,7 +7,7 @@ from webservice import __main__ as main
 @pytest.mark.asyncio
 async def test_ping():
     app = web.Application()
-    app.router.add_post("/", main.main)
+    app.router.add_post("/", main.webhook)
     client_ = await client(app)
     headers = {"x-github-event": "ping",
                "x-github-delivery": "1234"}
@@ -19,7 +19,7 @@ async def test_ping():
 @pytest.mark.asyncio
 async def test_success():
     app = web.Application()
-    app.router.add_post("/", main.main)
+    app.router.add_post("/", main.webhook)
     client_ = await client(app)
     headers = {"x-github-event": "project",
                "x-github-delivery": "1234"}
@@ -34,7 +34,7 @@ async def test_success():
 async def test_failure():
     """Even in the face of an exception, the server should not crash."""
     app = web.Application()
-    app.router.add_post("/", main.main)
+    app.router.add_post("/", main.webhook)
     client_ = await client(app)
     # Missing key headers.
     response = await client_.post("/", headers={})
