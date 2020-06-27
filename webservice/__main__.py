@@ -91,11 +91,30 @@ async def pr_opened(event, gh, *args, **kwargs):
         msg = f'Thanks for your first contribution @{username}'
     else:
         # seasoned contributor
-        msg = f'Welcome back, @{username}. You are a {author_association}.'
+        msg = f'Welcome back, @{username}. You are the {author_association}.'
     response = await gh.post(f'{issue_url}/comments',
                              data={'body': msg},
                              oauth_token=installation_access_token["token"],
                              )
+
+
+@router.register("issue_comment", action="created")
+async def issue_comment_created(event, gh, *args, **kwargs):
+    username = event.data["sender"]["login"]
+    installation_id = event.data["installation"]["id"]
+    installation_access_token = await apps.get_installation_access_token(
+        gh,
+        installation_id=installation_id,
+        app_id=os.environ.get("GH_APP_ID"),
+        private_key=os.environ.get("GH_PRIVATE_KEY")
+    )
+    comment_id = event.data['comment']['id']
+    comments_url = event.data["issue"]["comments_url"]
+    response = await gh.post(
+        f'{comments_url}/{comment_id}/reactions',
+        data={'content': 'heart'},
+        oauth_token=installation_access_token["token"],
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover
