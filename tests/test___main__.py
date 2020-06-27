@@ -4,6 +4,7 @@ import pytest
 from webservice import __main__ as main
 
 
+@pytest.mark.asyncio
 async def test_ping():
     app = web.Application()
     app.router.add_post("/", main.main)
@@ -15,6 +16,7 @@ async def test_ping():
     assert response.status == 200
 
 
+@pytest.mark.asyncio
 async def test_success():
     app = web.Application()
     app.router.add_post("/", main.main)
@@ -28,6 +30,7 @@ async def test_success():
     assert response.status == 200
 
 
+@pytest.mark.asyncio
 async def test_failure():
     """Even in the face of an exception, the server should not crash."""
     app = web.Application()
