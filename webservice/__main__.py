@@ -108,11 +108,10 @@ async def issue_comment_created(event, gh, *args, **kwargs):
         app_id=os.environ.get("GH_APP_ID"),
         private_key=os.environ.get("GH_PRIVATE_KEY")
     )
-    comment_id = event.data['comment']['id']
-    comments_url = event.data["issue"]["comments_url"]
+    comments_url = event.data["comment"]["url"]
     if username == "mezgoodle":
         response = await gh.post(
-            f'{comments_url}/{comment_id}/reactions',
+            f'{comments_url}/reactions',
             data={'content': 'heart'},
             oauth_token=installation_access_token["token"],
             accept='application/vnd.github.squirrel-girl-preview+json'
