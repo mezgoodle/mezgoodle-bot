@@ -126,6 +126,7 @@ async def issue_comment_created(event, gh, *args, **kwargs):
             oauth_token=installation_access_token["token"],
             accept='application/vnd.github.squirrel-girl-preview+json'
         )
+        print(response)
 
 
 if __name__ == "__main__":  # pragma: no cover

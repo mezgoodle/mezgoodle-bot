@@ -1,4 +1,3 @@
-import asyncio
 import os
 import aiohttp
 from gidgethub.aiohttp import GitHubAPI
