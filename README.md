@@ -155,8 +155,8 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Links to video and repos which inspired me to build this project:
 
-- https://www.youtube.com/watch?v=JWhywJHIMfs
-- https://github-app-tutorial.readthedocs.io/en/latest/index.html
+- [Video](https://www.youtube.com/watch?v=JWhywJHIMfs)
+- [Documentation](https://github-app-tutorial.readthedocs.io/en/latest/index.html)
 
 ## License
 
