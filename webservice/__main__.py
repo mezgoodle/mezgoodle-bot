@@ -43,6 +43,7 @@ async def webhook(request):
         return web.Response(status=200)
     except Exception as exc:
         traceback.print_exc(file=sys.stderr)
+        print(exc)
         return web.Response(status=500)
 
 
@@ -96,6 +97,7 @@ async def pr_opened(event, gh, *args, **kwargs):
                              data={'body': msg},
                              oauth_token=installation_access_token["token"],
                              )
+    print(response)
 
     # add label
     response = await gh.patch(
@@ -103,6 +105,7 @@ async def pr_opened(event, gh, *args, **kwargs):
         data={'labels': ['needs review']},
         oauth_token=installation_access_token["token"],
     )
+    print(response)
 
 
 @router.register("issue_comment", action="created")
