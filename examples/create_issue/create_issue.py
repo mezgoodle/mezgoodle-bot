@@ -18,6 +18,3 @@ async def main(nickname, repo):
             }
         )
         print(f"Issue created at {response['html_url']}")
-
-
-asyncio.run(main())
