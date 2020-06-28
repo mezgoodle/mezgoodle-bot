@@ -1,10 +1,8 @@
-# Project title
+# mezgoodle-bot
 
 [![Build Status](https://img.shields.io/badge/language-python-brightgreen?style=flat-square)](https://www.python.org/)
 
-A little info about your project and/ or overview that explains **what** the project is about.
-
-> Hello everyone! This is the repository of my package on Python "sync-folders".
+Hello everyone! This is the repository of my GitHub bot on Python.
 
 ## Table of contents
 
@@ -13,94 +11,146 @@ A little info about your project and/ or overview that explains **what** the pro
 - [Build status](#build-status)
 - [Badges](#badges)
 - [Code style](#code-style)
-- [Screenshots](#screenshots)
 - [Tech/framework used](#tech-framework-used)
 - [Features](#features)
 - [Code Example](#code-example)
 - [Installation](#installation)
 - [Fast usage](#fast-usage)
-- [API Reference](#api-reference)
-- [Tests](#tests)
+- [API](#api)
 - [Contribute](#contribute)
 - [Credits](#credits)
 - [License](#license)
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
-
+Once upon a time I was at a lecture in Kyiv where I was shown how to do GitHub bot, but then nothing came of it. So I decided to try **again**. Here the bot are :relaxed:
 ## Build status
 
-Build status of continus integration i.e. travis, appveyor etc.
+Here you can see build status of [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration):
 
-> Here you can see build status of [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration)/[continuous deployment](https://en.wikipedia.org/wiki/Continuous_deployment):
-
-[![Build Status](https://travis-ci.org/akashnimare/foco.svg?branch=master)](https://travis-ci.org/akashnimare/foco)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/akashnimare/foco?branch=master&svg=true)](https://ci.appveyor.com/project/akashnimare/foco/branch/master)
+![Lint Code Base](https://github.com/mezgoodle/mezgoodle-bot/workflows/Lint%20Code%20Base/badge.svg)
 
 ## Badges
 
 Other badges
 
-[![Build Status](https://img.shields.io/badge/Theme-Template-brightgreen?style=flat-square)](https://www.google.com.ua/)
+[![Platform](https://img.shields.io/badge/Platform-GitHub-brightgreen?style=flat-square)](https://www.github.com)
+![GitHub last commit](https://img.shields.io/github/last-commit/mezgoodle/mezgoodle-bot?style=flat-square)
+[![API](https://img.shields.io/badge/GitHub_API-v3-brightgreen?style=flat-square)](https://developer.github.com/v3/)
+
 
 ## Code style
 
-If you're using any code style like xo, standard etc. That will help others while contributing to your project.
+I'm using [Codacy](https://www.codacy.com/) for automate my code quality.
 
-> I'm using [Codacy](https://www.codacy.com/) for automate my code quality.
-
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
- 
-## Screenshots
-
-Include logo/demo screenshot etc.
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a2953a4086c847fa80278ffd2dc4186b)](https://www.codacy.com/manual/mezgoodle/mezgoodle-bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mezgoodle/mezgoodle-bot&amp;utm_campaign=Badge_Grade)
 
 ## Tech/framework used
 
 **Built with**
-- [Electron](https://electron.atom.io)
+
+- [Python](https://www.python.org/)
+- [AIOHTTP](https://docs.aiohttp.org/en/stable/)
+- [gidgethub](https://gidgethub.readthedocs.io/en/latest/)
 
 ## Features
 
-What makes your project stand out?
-
-> With my package you can **sync** two folders, **manage** logs files, **delete** empty folders and old files, read and create **zip-archives**.
+Bot can **response** on *installation*, *opening* pull request, issues *commenting*.
 
 ## Code Example
 
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+- Response on installation
+
+```python
+@router.register("installation", action="created")
+async def repo_installation_added(event, gh, *args, **kwargs):
+    installation_id = event.data["installation"]["id"]
+    installation_access_token = await apps.get_installation_access_token(
+        gh,
+        installation_id=installation_id,
+        app_id=os.environ.get("GH_APP_ID"),
+        private_key=os.environ.get("GH_PRIVATE_KEY")
+    )
+    sender_name = event.data["sender"]["login"]
+    for repo in event.data["repositories"]:
+
+        repo_full_name = repo["full_name"]
+        response = await gh.post(
+            f'/repos/{repo_full_name}/issues',
+            data={
+                'title': 'Thanks for installing me!',
+                'body': f'You are the best! @{sender_name}\n Also my creator is @mezgoodle. There you can find my body)'
+            },
+            oauth_token=installation_access_token["token"],
+        )
+        issue_url = response["url"]
+        await gh.patch(issue_url,
+                       data={"state": "closed"},
+                       oauth_token=installation_access_token["token"],
+                       )
+```
 
 ## Installation
 
-Provide step by step series of examples and explanations about how to get a development env running.
+1. Clone this repository
+
+```bash
+git clone https://github.com/mezgoodle/mezgoodle-bot.git
+```
+
+2. Use the package manager [pip](https://pip.pypa.io/en/stable/) to install required packages.
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Set environment variables like:
+
+> Variables in [30](https://github.com/mezgoodle/mezgoodle-bot/blob/master/webservice/__main__.py#L30), [55](https://github.com/mezgoodle/mezgoodle-bot/blob/master/webservice/__main__.py#L55), [56](https://github.com/mezgoodle/mezgoodle-bot/blob/master/webservice/__main__.py#L56) lines.
+
+- In Unix / Mac OS:
+
+```bash
+export GH_AUTH=your token
+```
+
+- In Windows:
+
+```bash
+set GH_AUTH=your token
+```
 
 ## Fast usage
 
-If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
+Firstly, add or change functions in `__main__.py`, change some values, such as messages or emojies. Then launch the script:
 
-## API Reference
+- Linux, MacOS:
 
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+```bash
+python3 -m webservice
+```
 
-> As tables
+- Windows:
 
-## Tests
+```bash
+python -m webservice
+```
 
-Describe and show how to run the tests with code examples.
+## API
 
-> As screenshot or :smile:I give you the [link](https://github.com/mezgoodle/sync-folders/actions?query=workflow%3A%22Python+package%22) to [GitHub Actions](https://github.com/features/actions), where you can see all my tests.
+Here I am using [GitHub API](https://developer.github.com/v3/).
 
 ## Contribute
 
-Let people know how they can contribute into your project. A contributing guideline will be a big plus.
-
-> Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](link).
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](https://github.com/mezgoodle/mezgoodle-bot/blob/master/CONTRIBUTING.md).
 
 ## Credits
 
-Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project. 
+Links to video and repos which inspired me to build this project:
+
+- https://www.youtube.com/watch?v=JWhywJHIMfs
+- https://github-app-tutorial.readthedocs.io/en/latest/index.html
 
 ## License
 
-MIT © [Yourname]()
+MIT © [mezgoodle](https://github.com/mezgoodle)
