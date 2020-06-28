@@ -29,7 +29,7 @@ Once upon a time I was at a lecture in Kyiv where I was shown how to do GitHub b
 
 Here you can see build status of [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration):
 
-![Lint Code Base](https://github.com/mezgoodle/mezgoodle-bot/workflows/Lint%20Code%20Base/badge.svg)
+![Lint Code](https://github.com/mezgoodle/mezgoodle-bot/workflows/Lint%20Code%20Base/badge.svg)
 
 ## Badges
 
