@@ -2,6 +2,7 @@ import os
 import aiohttp
 from gidgethub.aiohttp import GitHubAPI
 
+
 async def main(nickname, repo):
     async with aiohttp.ClientSession() as session:
         gh = GitHubAPI(
