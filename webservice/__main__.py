@@ -18,17 +18,6 @@ cache = cachetools.LRUCache(maxsize=500)
 routes = web.RouteTableDef()
 
 
-async def get_info(event):
-    installation_id = event.data["installation"]["id"]
-    installation_access_token = await apps.get_installation_access_token(
-        gh,
-        installation_id=installation_id,
-        app_id=os.environ.get("GH_APP_ID"),
-        private_key=os.environ.get("GH_PRIVATE_KEY")
-    )
-    return installation_id, installation_access_token
-
-
 @routes.get("/", name="home")
 async def handle_get(request):
     return web.Response(text="Hello world")
@@ -60,7 +49,13 @@ async def webhook(request):
 
 @router.register("installation", action="created")
 async def repo_installation_added(event, gh, *args, **kwargs):
-    installation_id, installation_access_token = get_info(event)
+    installation_id = event.data["installation"]["id"]
+    installation_access_token = await apps.get_installation_access_token(
+        gh,
+        installation_id=installation_id,
+        app_id=os.environ.get("GH_APP_ID"),
+        private_key=os.environ.get("GH_PRIVATE_KEY")
+    )
     sender_name = event.data["sender"]["login"]
     for repo in event.data["repositories"]:
 
@@ -84,7 +79,13 @@ async def repo_installation_added(event, gh, *args, **kwargs):
 async def pr_opened(event, gh, *args, **kwargs):
     issue_url = event.data["pull_request"]["issue_url"]
     username = event.data["sender"]["login"]
-    installation_id, installation_access_token = get_info(event)
+    installation_id = event.data["installation"]["id"]
+    installation_access_token = await apps.get_installation_access_token(
+        gh,
+        installation_id=installation_id,
+        app_id=os.environ.get("GH_APP_ID"),
+        private_key=os.environ.get("GH_PRIVATE_KEY")
+    )
     author_association = event.data["pull_request"]["author_association"]
     if author_association == 'NONE':
         # first time contributor
@@ -110,7 +111,13 @@ async def pr_opened(event, gh, *args, **kwargs):
 @router.register("issue_comment", action="created")
 async def issue_comment_created(event, gh, *args, **kwargs):
     username = event.data["sender"]["login"]
-    installation_id, installation_access_token = get_info(event)
+    installation_id = event.data["installation"]["id"]
+    installation_access_token = await apps.get_installation_access_token(
+        gh,
+        installation_id=installation_id,
+        app_id=os.environ.get("GH_APP_ID"),
+        private_key=os.environ.get("GH_PRIVATE_KEY")
+    )
     comments_url = event.data["comment"]["url"]
     if username == "mezgoodle":
         response = await gh.post(
