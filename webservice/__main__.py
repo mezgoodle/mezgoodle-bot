@@ -119,11 +119,11 @@ async def events_pr(event, gh, *args, **kwargs):
 
         await leave_comment(gh, issue_comment_url, message, token["token"])
 
-        url = f'/repos/{info["repo"]["full_name"]}/git/refs/heads/{info["ref"]}'
+        url = f'/repos/mezgoodle/SQL/git/refs/heads/{info["ref"]}'
         await gh.delete(url)      
     else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
-        url = f'/repos/{info["repo"]["full_name"]}/git/refs/heads/{info["ref"]}'
+        url = f'/repos/mezgoodle/SQL/git/refs/heads/{info["ref"]}'
         await gh.delete(url)
 
 
