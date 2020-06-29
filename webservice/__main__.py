@@ -119,12 +119,9 @@ async def pr_opened(event, gh, *args, **kwargs):
 async def backport_pr(event, gh, *args, **kwargs):
     if event.data["pull_request"]["merged"]:
 
-        issue_number = event.data["pull_request"]["number"]
         merged_by = event.data["pull_request"]["merged_by"]["login"]
         created_by = event.data["pull_request"]["user"]["login"]
         issue_comment_url = event.data["pull_request"]["issue_url"]
-
-        commit_hash = event.data["pull_request"]["merge_commit_sha"]
 
         pr_labels = []
         if event.data["action"] == "labeled":
