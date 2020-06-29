@@ -115,6 +115,13 @@ async def pr_opened(event, gh, *args, **kwargs):
 @router.register("pull_request", action="closed")
 @router.register("pull_request", action="merged")
 async def events_pr(event, gh, *args, **kwargs):
+    installation_id = event.data["installation"]["id"]
+    installation_access_token = await apps.get_installation_access_token(
+        gh,
+        installation_id=installation_id,
+        app_id=os.environ.get("GH_APP_ID"),
+        private_key=os.environ.get("GH_PRIVATE_KEY")
+    )
     if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
         merged_by = event.data["pull_request"]["merged_by"]["login"]
         created_by = event.data["pull_request"]["user"]["login"]
@@ -126,23 +133,30 @@ async def events_pr(event, gh, *args, **kwargs):
             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
-        await leave_comment(gh, issue_comment_url, message)
+        await leave_comment(gh, issue_comment_url, message, installation_access_token)
 
 
 @router.register("pull_request", action="labeled")
-async def events_pr(event, gh, *args, **kwargs):
-        user = event.data["pull_request"]["user"]["login"]
-        issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
-        message = f"Wow! New label. @{user}, did you see it?!"
-        await leave_comment(gh, issue_comment_url, message)
+async def labeled_pr(event, gh, *args, **kwargs):
+    installation_id = event.data["installation"]["id"]
+    installation_access_token = await apps.get_installation_access_token(
+        gh,
+        installation_id=installation_id,
+        app_id=os.environ.get("GH_APP_ID"),
+        private_key=os.environ.get("GH_PRIVATE_KEY")
+    )
+    user = event.data["pull_request"]["user"]["login"]
+    issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
+    message = f"Wow! New label. @{user}, did you see it?!"
+    await leave_comment(gh, issue_comment_url, message, installation_access_token)
 
 
-async def leave_comment(gh, issue_comment_url, message):
+async def leave_comment(gh, issue_comment_url, message, token):
     data = {"body": message}
     await gh.post(
         f'{issue_comment_url}', 
         data=data, 
-        oauth_token=installation_access_token["token"]
+        oauth_token=token
     )
 
 
