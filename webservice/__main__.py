@@ -2,7 +2,6 @@ import asyncio
 import os
 import sys
 import traceback
-import random
 
 
 import aiohttp
@@ -15,7 +14,6 @@ from gidgethub import apps
 
 router = routing.Router()
 cache = cachetools.LRUCache(maxsize=500)
-EASTER_EGG = "I'm not a robot! I'm not a robot!"
 
 routes = web.RouteTableDef()
 
@@ -117,50 +115,32 @@ async def pr_opened(event, gh, *args, **kwargs):
 @router.register("pull_request", action="closed")
 @router.register("pull_request", action="labeled")
 @router.register("pull_request", action="merged")
-async def backport_pr(event, gh, *args, **kwargs):
-    print(event.data)
-    # if event.data["pull_request"]["merged"]:
+async def events_pr(event, gh, *args, **kwargs):
+    if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
+        merged_by = event.data["pull_request"]["merged_by"]["login"]
+        created_by = event.data["pull_request"]["user"]["login"]
+        issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
 
-    #     merged_by = event.data["pull_request"]["merged_by"]["login"]
-    #     created_by = event.data["pull_request"]["user"]["login"]
-    #     issue_comment_url = event.data["pull_request"]["issue_url"]
+        if created_by == merged_by or merged_by == "mezgoodle-bot":
+            thanks_to = f"Thanks @{created_by} for the PR 🌮🎉."
+        else:
+            thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
+        message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
-    #     pr_labels = []
-    #     if event.data["action"] == "labeled":
-    #         pr_labels = [event.data["label"]]
-    #     else:
-    #         gh_issue = await gh.getitem(
-    #             event.data["repository"]["issues_url"],
-    #             {"number": f"{event.data['pull_request']['number']}"},
-    #         )
-    #         pr_labels = await gh.getitem(gh_issue["labels_url"])
+        await leave_comment(gh, issue_comment_url, message)
 
-    #     branches = [
-    #         label["name"].split()[-1]
-    #         for label in pr_labels
-    #         if label["name"].startswith("needs backport to")
-    #     ]
 
-    #     if branches:
-    #         easter_egg = ""
-    #         if random.random() < 0.1:
-    #             easter_egg = EASTER_EGG
-    #         thanks_to = ""
-    #         if created_by == merged_by or merged_by == "mezgoodle-bot":
-    #             thanks_to = f"Thanks @{created_by} for the PR 🌮🎉."
-    #         else:
-    #             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
-    #         message = (
-    #             f"{thanks_to}. I'm working now to backport this PR to: {', '.join(branches)}."
-    #             f"\n🐍🍒⛏🤖 {easter_egg}"
-    #         )
-
-    #         await leave_comment(gh, issue_comment_url, message)
+@router.register("pull_request", action="labeled")
+async def events_pr(event, gh, *args, **kwargs):
+        user = event.data["pull_request"]["user"]["login"]
+        issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
+        message = f"Wow! New label. @{user}, did you see it?!"
+        await leave_comment(gh, issue_comment_url, message)
 
 
 async def leave_comment(gh, issue_comment_url, message):
     data = {"body": message}
-    await gh.post(f'{issue_comment_url}/comments', data=data)
+    await gh.post(f'{issue_comment_url}', data=data)
 
 
 @router.register("issue_comment", action="created")
