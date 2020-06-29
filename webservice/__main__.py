@@ -118,7 +118,7 @@ async def events_pr(event, gh, *args, **kwargs):
 
         await leave_comment(gh, issue_comment_url, message, token["token"])
         response = await gh.delete(
-            f'{info["repo"]["url"]}/git/refs/{info["ref"]}'
+            f'{info["repo"]["url"]}/git/refs/heads/{info["ref"]}'
         )
         print(response)
     else:
@@ -128,7 +128,6 @@ async def events_pr(event, gh, *args, **kwargs):
             oauth_token=token["token"],
         )
         print(response)
-    
 
 
 @router.register("pull_request", action="labeled")
