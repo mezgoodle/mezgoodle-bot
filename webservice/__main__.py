@@ -156,32 +156,7 @@ async def backport_pr(event, gh, *args, **kwargs):
                 f"\n🐍🍒⛏🤖 {easter_egg}"
             )
 
-            await util.leave_comment(gh, issue_number, message)
-
-            sorted_branches = sorted(
-                branches, reverse=True, key=lambda v: tuple(map(int, v.split(".")))
-            )
-
-            for branch in sorted_branches:
-                await kickoff_backport_task(
-                    gh, commit_hash, branch, issue_number, created_by, merged_by, issue_comment_url
-                )
-
-
-async def kickoff_backport_task(
-    gh, commit_hash, branch, issue_number, created_by, merged_by, issue_comment_url
-):
-    try:
-        tasks.backport_task.delay(
-            commit_hash,
-            branch,
-            issue_number=issue_number,
-            created_by=created_by,
-            merged_by=merged_by,
-        )
-    except (redis_ex.ConnectionError, kombu_ex.OperationalError) as ex:
-        err_message = f"I'm having trouble backporting to `{branch}`. Reason: '`{ex}`'. Please retry by removing and re-adding the `needs backport to {branch}` label."
-        await util.leave_comment(gh, issue_comment_url, err_message)
+            await leave_comment(gh, issue_comment_url, message)
 
 
 async def leave_comment(gh, issue_comment_url, message):
