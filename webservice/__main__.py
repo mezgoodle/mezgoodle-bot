@@ -124,6 +124,7 @@ async def events_pr(event, gh, *args, **kwargs):
     )
     created_by = event.data["pull_request"]["user"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
+    info = event.data["pull_request"]["head"]
 
     if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
         merged_by = event.data["pull_request"]["merged_by"]["login"]
@@ -134,8 +135,19 @@ async def events_pr(event, gh, *args, **kwargs):
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
         await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
+        response = await gh.delete(
+            f'{info["repo"]["url"]}/git/refs/{info["ref"]}'
+            oauth_token=installation_access_token["token"]
+        )
+        print(response)
     else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', installation_access_token["token"])
+        response = await gh.delete(
+            f'{info["repo"]["url"]}/git/refs/{info["ref"]}'
+            oauth_token=installation_access_token["token"]
+        )
+        print(response)
+    
 
 
 @router.register("pull_request", action="labeled")
