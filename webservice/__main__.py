@@ -103,6 +103,7 @@ async def pr_opened(event, gh, *args, **kwargs):
 @router.register("pull_request", action="closed")
 @router.register("pull_request", action="merged")
 async def events_pr(event, gh, *args, **kwargs):
+    print(event.data)
     token = await get_info(event, gh)
     created_by = event.data["pull_request"]["user"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
@@ -116,18 +117,9 @@ async def events_pr(event, gh, *args, **kwargs):
             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
-        await leave_comment(gh, issue_comment_url, message, token["token"])
-        url = f'{info["repo"]["url"]}/git/refs/heads/{info["ref"]}'
-        print(url)
-        response = await gh.delete(url)
-        print(response)
+        await leave_comment(gh, issue_comment_url, message, token["token"])      
     else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
-        response = await gh.delete(
-            f'{info["repo"]["url"]}/git/refs/{info["ref"]}',
-            oauth_token=token["token"],
-        )
-        print(response)
 
 
 @router.register("pull_request", action="labeled")
