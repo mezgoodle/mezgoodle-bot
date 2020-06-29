@@ -136,15 +136,15 @@ async def events_pr(event, gh, *args, **kwargs):
 
         await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
         response = await gh.delete(
-            f'{info["repo"]["url"]}/git/refs/{info["ref"]}'
-            oauth_token=installation_access_token["token"]
+            f'{info["repo"]["url"]}/git/refs/{info["ref"]}',
+            oauth_token=installation_access_token["token"],
         )
         print(response)
     else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', installation_access_token["token"])
         response = await gh.delete(
-            f'{info["repo"]["url"]}/git/refs/{info["ref"]}'
-            oauth_token=installation_access_token["token"]
+            f'{info["repo"]["url"]}/git/refs/{info["ref"]}',
+            oauth_token=installation_access_token["token"],
         )
         print(response)
     
