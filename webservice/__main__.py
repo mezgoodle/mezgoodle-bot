@@ -133,7 +133,7 @@ async def events_pr(event, gh, *args, **kwargs):
             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
-        await leave_comment(gh, issue_comment_url, message, installation_access_token)
+        await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
 
 
 @router.register("pull_request", action="labeled")
@@ -148,7 +148,7 @@ async def labeled_pr(event, gh, *args, **kwargs):
     user = event.data["pull_request"]["user"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
     message = f"Wow! New label. @{user}, did you see it?!"
-    await leave_comment(gh, issue_comment_url, message, installation_access_token)
+    await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
 
 
 async def leave_comment(gh, issue_comment_url, message, token):
