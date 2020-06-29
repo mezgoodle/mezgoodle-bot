@@ -117,9 +117,14 @@ async def events_pr(event, gh, *args, **kwargs):
             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
-        await leave_comment(gh, issue_comment_url, message, token["token"])      
+        await leave_comment(gh, issue_comment_url, message, token["token"])
+
+        url = f"/repos/{info["repo"]["full_name"]}/git/refs/heads/{info["ref"]}"
+        await gh.delete(url)      
     else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
+        url = f"/repos/{info["repo"]["full_name"]}/git/refs/heads/{info["ref"]}"
+        await gh.delete(url)
 
 
 @router.register("pull_request", action="labeled")
