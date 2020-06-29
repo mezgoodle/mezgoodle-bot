@@ -137,7 +137,7 @@ async def labeled_pr(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     user = event.data["pull_request"]["user"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
-    message = f"Wow! New label. @{user}, did you see it?!"
+    message = f"Wow! New label! @{user}, did you see it?!"
     await leave_comment(gh, issue_comment_url, message, token["token"])
 
 
