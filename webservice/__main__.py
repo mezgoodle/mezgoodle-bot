@@ -113,7 +113,6 @@ async def pr_opened(event, gh, *args, **kwargs):
 
 
 @router.register("pull_request", action="closed")
-@router.register("pull_request", action="labeled")
 @router.register("pull_request", action="merged")
 async def events_pr(event, gh, *args, **kwargs):
     if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
@@ -140,7 +139,11 @@ async def events_pr(event, gh, *args, **kwargs):
 
 async def leave_comment(gh, issue_comment_url, message):
     data = {"body": message}
-    await gh.post(f'{issue_comment_url}', data=data)
+    await gh.post(
+        f'{issue_comment_url}', 
+        data=data, 
+        oauth_token=installation_access_token["token"]
+    )
 
 
 @router.register("issue_comment", action="created")
