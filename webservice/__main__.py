@@ -122,11 +122,11 @@ async def events_pr(event, gh, *args, **kwargs):
         app_id=os.environ.get("GH_APP_ID"),
         private_key=os.environ.get("GH_PRIVATE_KEY")
     )
+    created_by = event.data["pull_request"]["user"]["login"]
+    issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
+
     if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
         merged_by = event.data["pull_request"]["merged_by"]["login"]
-        created_by = event.data["pull_request"]["user"]["login"]
-        issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
-
         if created_by == merged_by or merged_by == "mezgoodle-bot":
             thanks_to = f"Thanks @{created_by} for the PR 🌮🎉."
         else:
@@ -134,6 +134,8 @@ async def events_pr(event, gh, *args, **kwargs):
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
         await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
+    elif:
+        await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', installation_access_token["token"])
 
 
 @router.register("pull_request", action="labeled")
