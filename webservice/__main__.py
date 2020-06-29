@@ -134,7 +134,7 @@ async def events_pr(event, gh, *args, **kwargs):
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
         await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
-    elif:
+    else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', installation_access_token["token"])
 
 
