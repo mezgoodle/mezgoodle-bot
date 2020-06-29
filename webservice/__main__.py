@@ -117,9 +117,9 @@ async def events_pr(event, gh, *args, **kwargs):
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
         await leave_comment(gh, issue_comment_url, message, token["token"])
-        response = await gh.delete(
-            f'{info["repo"]["url"]}/git/refs/heads/{info["ref"]}'
-        )
+        url = f'{info["repo"]["url"]}/git/refs/heads/{info["ref"]}'
+        print(url)
+        response = await gh.delete(url)
         print(response)
     else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
