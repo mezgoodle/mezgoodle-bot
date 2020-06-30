@@ -156,6 +156,11 @@ async def issue_comment_created(event, gh, *args, **kwargs):
         print(response)
 
 
+@router.register("issues", action="opened")
+async def issue_comment_created(event, gh, *args, **kwargs):
+    print(event.data)
+
+
 async def get_info(event, gh):
     installation_id = event.data["installation"]["id"]
     installation_access_token = await apps.get_installation_access_token(
