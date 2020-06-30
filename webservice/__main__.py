@@ -174,9 +174,10 @@ async def issue_created(event, gh, *args, **kwargs):
 async def issue_created(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     url = event.data["issue"]["comments_url"]
+    author = event.data["issue"]["user"]["login"]
     sender = event.data["sender"]["login"]
 
-    msg = f'Thanks for issue!\n@{sender}, thank you for closing this issue, I have less work.\nI will look forward to our next meeting😜'
+    msg = f'Thanks for issue, @{author}! @{sender}, thank you for closing this issue, I have less work.\nI will look forward to our next meeting😜'
 
     await leave_comment(gh, url, msg, token["token"])
 
