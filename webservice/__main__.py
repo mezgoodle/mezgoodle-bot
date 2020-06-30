@@ -147,7 +147,7 @@ async def labeled_issue(event, gh, *args, **kwargs):
     url = event.data["issue"]["comments_url"]
     sender = event.data["sender"]["login"]
     message = f"Wow! New label! @{sender}, thank you!"
-    await leave_comment(gh, issue_comment_url, message, token["token"])
+    await leave_comment(gh, url, message, token["token"])
 
 
 @router.register("issue_comment", action="created")
