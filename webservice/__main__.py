@@ -157,8 +157,28 @@ async def issue_comment_created(event, gh, *args, **kwargs):
 
 
 @router.register("issues", action="opened")
-async def issue_comment_created(event, gh, *args, **kwargs):
-    print(event.data)
+async def issue_created(event, gh, *args, **kwargs):
+    token = await get_info(event, gh)
+    url = event.data["issue"]["comments_url"]
+    sender = event.data["sender"]["login"]
+
+    if sender == 'mezgoodle':
+        msg = 'Nice to meet you here, sensei!'
+    else:
+        msg = f'Nice to meet you, @{sender}\nI wish you have a nice day😊\n@mezgoodle will answer as soon as he can.'
+
+    await leave_comment(gh, url, msg, token["token"])
+
+
+@router.register("issues", action="closed")
+async def issue_created(event, gh, *args, **kwargs):
+    token = await get_info(event, gh)
+    url = event.data["issue"]["comments_url"]
+    sender = event.data["sender"]["login"]
+
+    msg = f'Thanks for issue!\n@{sender}, thank you for closing this issue, I have less work.\nI will look forward to our next meeting😜'
+
+    await leave_comment(gh, url, msg, token["token"])
 
 
 async def get_info(event, gh):
