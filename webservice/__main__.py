@@ -141,6 +141,15 @@ async def labeled_pr(event, gh, *args, **kwargs):
     await leave_comment(gh, issue_comment_url, message, token["token"])
 
 
+@router.register("issues", action="labeled")
+async def labeled_pr(event, gh, *args, **kwargs):
+    token = await get_info(event, gh)
+    url = event.data["issue"]["comments_url"]
+    sender = event.data["sender"]["login"]
+    message = f"Wow! New label! @{user}, did you see it?!"
+    await leave_comment(gh, issue_comment_url, message, token["token"])
+
+
 @router.register("issue_comment", action="created")
 async def issue_comment_created(event, gh, *args, **kwargs):
     username = event.data["sender"]["login"]
