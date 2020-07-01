@@ -1,6 +1,6 @@
 # mezgoodle-bot
 
-[![Build Status](https://img.shields.io/badge/language-python-brightgreen?style=flat-square)](https://www.python.org/)
+[![Language](https://img.shields.io/badge/language-python-brightgreen?style=flat-square)](https://www.python.org/)
 
 Hello everyone! This is the repository of my GitHub bot on Python.
 
@@ -56,7 +56,7 @@ I'm using [Codacy](https://www.codacy.com/) for automate my code quality.
 
 ## Features
 
-Bot can **response** on *installation*, *opening* pull request, issues *commenting*.
+Bot can **response** on *installation*, *opening* and *closing* pull-requests and issues.
 
 ## Code Example
 
@@ -149,7 +149,7 @@ Here I am using [GitHub API](https://developer.github.com/v3/).
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](https://github.com/mezgoodle/mezgoodle-bot/blob/master/CONTRIBUTING.md).
 
-> If you want to contribute to this project, so I have problems such as add more examples of work with API and add tests for bot.
+> If you want to contribute to this project, so I have problems such as add more examples of work with API and add tests for the bot.
 
 ## Credits
 
@@ -157,6 +157,7 @@ Links to video and repos which inspired me to build this project:
 
 - [Video](https://www.youtube.com/watch?v=JWhywJHIMfs)
 - [Documentation](https://github-app-tutorial.readthedocs.io/en/latest/index.html)
+- [Tutorial repository](https://github.com/Mariatta/github-app-tutorial)
 
 ## License
 
