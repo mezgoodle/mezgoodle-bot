@@ -82,14 +82,14 @@ async def pr_opened(event, gh, *args, **kwargs):
     else:
         # seasoned contributor
         msg = f'Welcome back, @{username}. You are the {author_association}.'
-    response = await gh.post(f'{issue_url}/comments',
-                             data={'body': msg},
-                             oauth_token=token["token"],
-                             )
-    print(response)
+    await gh.post(
+                f'{issue_url}/comments',
+                data={'body': msg},
+                oauth_token=token["token"],
+                )
 
     # add label
-    response = await gh.patch(
+    await gh.patch(
         issue_url,
         data={
             'labels': ['needs review'] + labels,
@@ -97,7 +97,6 @@ async def pr_opened(event, gh, *args, **kwargs):
         },
         oauth_token=token["token"],
     )
-    print(response)
 
 
 @router.register("pull_request", action="closed")
@@ -121,8 +120,7 @@ async def events_pr(event, gh, *args, **kwargs):
         ref = info["ref"]
         repo = info["repo"]["name"]
         url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
-        print(url)
-        await gh.delete(url, oauth_token=token["token"],)      
+        await gh.delete(url, oauth_token=token["token"],)
     else:
         await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
         owner = info["user"]["login"]
@@ -156,13 +154,12 @@ async def issue_comment_created(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     comments_url = event.data["comment"]["url"]
     if username == "mezgoodle":
-        response = await gh.post(
+        await gh.post(
             f'{comments_url}/reactions',
             data={'content': 'heart'},
             oauth_token=token["token"],
             accept='application/vnd.github.squirrel-girl-preview+json'
         )
-        print(response)
 
 
 @router.register("issues", action="opened")
@@ -180,7 +177,7 @@ async def issue_created(event, gh, *args, **kwargs):
 
 
 @router.register("issues", action="closed")
-async def issue_created(event, gh, *args, **kwargs):
+async def issue_closed(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     url = event.data["issue"]["comments_url"]
     author = event.data["issue"]["user"]["login"]
@@ -205,8 +202,8 @@ async def get_info(event, gh):
 async def leave_comment(gh, issue_comment_url, message, token):
     data = {"body": message}
     await gh.post(
-        f'{issue_comment_url}', 
-        data=data, 
+        f'{issue_comment_url}',
+        data=data,
         oauth_token=token
     )
 
