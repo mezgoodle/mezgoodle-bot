@@ -183,8 +183,8 @@ async def issue_closed(event, gh, *args, **kwargs):
     author = event.data["issue"]["user"]["login"]
     sender = event.data["sender"]["login"]
 
-    msg = f'Thanks for issue, @{author}! @{sender}, thank you for closing this issue, I have less work.
-    I will look forward to our next meeting😜'
+    msg = f'''Thanks for issue, @{author}! @{sender}, thank you for closing this issue, I have less work.
+    I will look forward to our next meeting😜'''
 
     await leave_comment(gh, url, msg, token["token"])
 
