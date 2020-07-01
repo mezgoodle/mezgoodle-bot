@@ -25,6 +25,7 @@ Hello everyone! This is the repository of my GitHub bot on Python.
 ## Motivation
 
 Once upon a time I was at a lecture in Kyiv where I was shown how to do GitHub bot, but then nothing came of it. So I decided to try **again**. Here the bot are :relaxed:
+
 ## Build status
 
 Here you can see build status of [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration):
