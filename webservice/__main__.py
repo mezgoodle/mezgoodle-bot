@@ -49,13 +49,7 @@ async def webhook(request):
 
 @router.register("installation", action="created")
 async def repo_installation_added(event, gh, *args, **kwargs):
-    installation_id = event.data["installation"]["id"]
-    installation_access_token = await apps.get_installation_access_token(
-        gh,
-        installation_id=installation_id,
-        app_id=os.environ.get("GH_APP_ID"),
-        private_key=os.environ.get("GH_PRIVATE_KEY")
-    )
+    token = await get_info(event, gh)
     sender_name = event.data["sender"]["login"]
     for repo in event.data["repositories"]:
 
@@ -66,12 +60,12 @@ async def repo_installation_added(event, gh, *args, **kwargs):
                 'title': 'Thanks for installing me!',
                 'body': f'You are the best! @{sender_name}\n Also my creator is @mezgoodle. There you can find my body)'
             },
-            oauth_token=installation_access_token["token"],
+            oauth_token=token["token"],
         )
         issue_url = response["url"]
         await gh.patch(issue_url,
                        data={"state": "closed"},
-                       oauth_token=installation_access_token["token"],
+                       oauth_token=token["token"],
                        )
 
 
@@ -80,13 +74,7 @@ async def pr_opened(event, gh, *args, **kwargs):
     issue_url = event.data["pull_request"]["issue_url"]
     labels = event.data["pull_request"]["labels"]
     username = event.data["sender"]["login"]
-    installation_id = event.data["installation"]["id"]
-    installation_access_token = await apps.get_installation_access_token(
-        gh,
-        installation_id=installation_id,
-        app_id=os.environ.get("GH_APP_ID"),
-        private_key=os.environ.get("GH_PRIVATE_KEY")
-    )
+    token = await get_info(event, gh)
     author_association = event.data["pull_request"]["author_association"]
     if author_association == 'NONE':
         # first time contributor
@@ -94,36 +82,30 @@ async def pr_opened(event, gh, *args, **kwargs):
     else:
         # seasoned contributor
         msg = f'Welcome back, @{username}. You are the {author_association}.'
-    response = await gh.post(f'{issue_url}/comments',
-                             data={'body': msg},
-                             oauth_token=installation_access_token["token"],
-                             )
-    print(response)
+    await gh.post(
+                f'{issue_url}/comments',
+                data={'body': msg},
+                oauth_token=token["token"],
+                )
 
     # add label
-    response = await gh.patch(
+    await gh.patch(
         issue_url,
         data={
             'labels': ['needs review'] + labels,
             'assignees': ['mezgoodle'],
         },
-        oauth_token=installation_access_token["token"],
+        oauth_token=token["token"],
     )
-    print(response)
 
 
 @router.register("pull_request", action="closed")
 @router.register("pull_request", action="merged")
 async def events_pr(event, gh, *args, **kwargs):
-    installation_id = event.data["installation"]["id"]
-    installation_access_token = await apps.get_installation_access_token(
-        gh,
-        installation_id=installation_id,
-        app_id=os.environ.get("GH_APP_ID"),
-        private_key=os.environ.get("GH_PRIVATE_KEY")
-    )
+    token = await get_info(event, gh)
     created_by = event.data["pull_request"]["user"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
+    info = event.data["pull_request"]["head"]
 
     if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
         merged_by = event.data["pull_request"]["merged_by"]["login"]
@@ -133,38 +115,80 @@ async def events_pr(event, gh, *args, **kwargs):
             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
-        await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
+        await leave_comment(gh, issue_comment_url, message, token["token"])
+        owner = info["user"]["login"]
+        ref = info["ref"]
+        repo = info["repo"]["name"]
+        url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
+        await gh.delete(url, oauth_token=token["token"],)
     else:
-        await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', installation_access_token["token"])
+        await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
+        owner = info["user"]["login"]
+        ref = info["ref"]
+        repo = info["repo"]["name"]
+        url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
+        await gh.delete(url, oauth_token=token["token"],)
 
 
 @router.register("pull_request", action="labeled")
 async def labeled_pr(event, gh, *args, **kwargs):
-    installation_id = event.data["installation"]["id"]
-    installation_access_token = await apps.get_installation_access_token(
-        gh,
-        installation_id=installation_id,
-        app_id=os.environ.get("GH_APP_ID"),
-        private_key=os.environ.get("GH_PRIVATE_KEY")
-    )
+    token = await get_info(event, gh)
     user = event.data["pull_request"]["user"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
-    message = f"Wow! New label. @{user}, did you see it?!"
-    await leave_comment(gh, issue_comment_url, message, installation_access_token["token"])
+    message = f"Wow! New label! @{user}, did you see it?!"
+    await leave_comment(gh, issue_comment_url, message, token["token"])
 
 
-async def leave_comment(gh, issue_comment_url, message, token):
-    data = {"body": message}
-    await gh.post(
-        f'{issue_comment_url}', 
-        data=data, 
-        oauth_token=token
-    )
+@router.register("issues", action="labeled")
+async def labeled_issue(event, gh, *args, **kwargs):
+    token = await get_info(event, gh)
+    url = event.data["issue"]["comments_url"]
+    sender = event.data["sender"]["login"]
+    message = f"Wow! New label! @{sender}, thank you!"
+    await leave_comment(gh, url, message, token["token"])
 
 
 @router.register("issue_comment", action="created")
 async def issue_comment_created(event, gh, *args, **kwargs):
     username = event.data["sender"]["login"]
+    token = await get_info(event, gh)
+    comments_url = event.data["comment"]["url"]
+    if username == "mezgoodle":
+        await gh.post(
+            f'{comments_url}/reactions',
+            data={'content': 'heart'},
+            oauth_token=token["token"],
+            accept='application/vnd.github.squirrel-girl-preview+json'
+        )
+
+
+@router.register("issues", action="opened")
+async def issue_created(event, gh, *args, **kwargs):
+    token = await get_info(event, gh)
+    url = event.data["issue"]["comments_url"]
+    sender = event.data["sender"]["login"]
+
+    if sender == 'mezgoodle':
+        msg = 'Nice to meet you here, sensei!'
+    else:
+        msg = f'Nice to meet you, @{sender}\nI wish you have a nice day😊\n@mezgoodle will answer as soon as he can.'
+
+    await leave_comment(gh, url, msg, token["token"])
+
+
+@router.register("issues", action="closed")
+async def issue_closed(event, gh, *args, **kwargs):
+    token = await get_info(event, gh)
+    url = event.data["issue"]["comments_url"]
+    author = event.data["issue"]["user"]["login"]
+    sender = event.data["sender"]["login"]
+
+    msg = f'Thanks for issue, @{author}! @{sender}, thank you for closing this issue, I have less work.\nI will look forward to our next meeting😜'
+
+    await leave_comment(gh, url, msg, token["token"])
+
+
+async def get_info(event, gh):
     installation_id = event.data["installation"]["id"]
     installation_access_token = await apps.get_installation_access_token(
         gh,
@@ -172,15 +196,16 @@ async def issue_comment_created(event, gh, *args, **kwargs):
         app_id=os.environ.get("GH_APP_ID"),
         private_key=os.environ.get("GH_PRIVATE_KEY")
     )
-    comments_url = event.data["comment"]["url"]
-    if username == "mezgoodle":
-        response = await gh.post(
-            f'{comments_url}/reactions',
-            data={'content': 'heart'},
-            oauth_token=installation_access_token["token"],
-            accept='application/vnd.github.squirrel-girl-preview+json'
-        )
-        print(response)
+    return installation_access_token
+
+
+async def leave_comment(gh, issue_comment_url, message, token):
+    data = {"body": message}
+    await gh.post(
+        f'{issue_comment_url}',
+        data=data,
+        oauth_token=token
+    )
 
 
 if __name__ == "__main__":  # pragma: no cover
