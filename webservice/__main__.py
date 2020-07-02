@@ -72,7 +72,6 @@ async def repo_installation_added(event, gh, *args, **kwargs):
 @router.register("pull_request", action="opened")
 async def pr_opened(event, gh, *args, **kwargs):
     issue_url = event.data["pull_request"]["issue_url"]
-    labels = event.data["pull_request"]["labels"]
     username = event.data["sender"]["login"]
     token = await get_info(event, gh)
     author_association = event.data["pull_request"]["author_association"]
@@ -92,7 +91,7 @@ async def pr_opened(event, gh, *args, **kwargs):
     await gh.patch(
         issue_url,
         data={
-            'labels': ['needs review'] + labels,
+            'labels': ['needs review'],
             'assignees': ['mezgoodle'],
         },
         oauth_token=token["token"],
@@ -134,8 +133,9 @@ async def events_pr(event, gh, *args, **kwargs):
 async def labeled_pr(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     user = event.data["pull_request"]["user"]["login"]
+    sender = event.data["sender"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
-    message = f"Wow! New label! @{user}, did you see it?!"
+    message = f"Wow! New label! @{sender}, thank you a lot! @{user}, did you see it?!"
     await leave_comment(gh, issue_comment_url, message, token["token"])
 
 
