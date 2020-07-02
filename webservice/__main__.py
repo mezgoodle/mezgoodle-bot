@@ -72,6 +72,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
 @router.register("pull_request", action="opened")
 async def pr_opened(event, gh, *args, **kwargs):
     issue_url = event.data["pull_request"]["issue_url"]
+    labels = event.data["pull_request"]["labels"]
     username = event.data["sender"]["login"]
     token = await get_info(event, gh)
     author_association = event.data["pull_request"]["author_association"]
@@ -91,7 +92,7 @@ async def pr_opened(event, gh, *args, **kwargs):
     await gh.patch(
         issue_url,
         data={
-            'labels': ['needs review'],
+            'labels': ['needs review'] + labels,
             'assignees': ['mezgoodle'],
         },
         oauth_token=token["token"],
