@@ -1,4 +1,3 @@
-from webservice.__main__ import router
 from .utils import get_info
 import gidgethub.routing
 
