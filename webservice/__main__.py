@@ -11,6 +11,7 @@ from gidgethub import aiohttp as gh_aiohttp
 from gidgethub import routing
 from gidgethub import sansio
 from gidgethub import apps
+from .config import PRIVATE_KEY, SECRET, APP_ID
 
 router = routing.Router()
 cache = cachetools.LRUCache(maxsize=500)
@@ -27,7 +28,7 @@ async def handle_get(request):
 async def webhook(request):
     try:
         body = await request.read()
-        secret = os.environ.get("GH_SECRET")
+        secret = SECRET
         event = sansio.Event.from_http(request.headers, body, secret=secret)
         if event.event == "ping":
             return web.Response(status=200)
@@ -195,8 +196,8 @@ async def get_info(event, gh):
     installation_access_token = await apps.get_installation_access_token(
         gh,
         installation_id=installation_id,
-        app_id=os.environ.get("GH_APP_ID"),
-        private_key=os.environ.get("GH_PRIVATE_KEY")
+        app_id=APP_ID,
+        private_key=PRIVATE_KEY
     )
     return installation_access_token
 
