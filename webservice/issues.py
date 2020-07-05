@@ -3,6 +3,7 @@ import gidgethub.routing
 
 router = gidgethub.routing.Router()
 
+
 @router.register("issues", action="labeled")
 async def labeled_issue(event, gh, *args, **kwargs):
     token = await get_info(event, gh)

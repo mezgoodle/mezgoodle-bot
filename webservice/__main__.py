@@ -13,8 +13,9 @@ from gidgethub import sansio
 from .config import SECRET
 from . import issues
 from . import pr
+from . import installation
 
-router = routing.Router(issues.router, pr.router)
+router = routing.Router(issues.router, pr.router, installation.router)
 cache = cachetools.LRUCache(maxsize=500)
 
 routes = web.RouteTableDef()
@@ -49,7 +50,7 @@ async def webhook(request):
         return web.Response(status=500)
 
 
-if __name__ == "__main__":  # pragma: no cover
+if __name__ == "__main__":
     app = web.Application()
 
     app.router.add_routes(routes)

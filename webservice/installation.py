@@ -4,6 +4,7 @@ import gidgethub.routing
 
 router = gidgethub.routing.Router()
 
+
 @router.register("installation", action="created")
 async def repo_installation_added(event, gh, *args, **kwargs):
     token = await get_info(event, gh)

@@ -3,6 +3,7 @@ import gidgethub.routing
 
 router = gidgethub.routing.Router()
 
+
 @router.register("pull_request", action="opened")
 async def pr_opened(event, gh, *args, **kwargs):
     issue_url = event.data["pull_request"]["issue_url"]
