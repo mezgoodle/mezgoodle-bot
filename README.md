@@ -24,7 +24,7 @@ Hello everyone! This is the repository of my GitHub bot on Python.
 
 ## Motivation
 
-Once upon a time I was at a lecture in Kyiv where I was shown how to do GitHub bot, but then nothing came of it. So I decided to try **again**. Here the bot are :relaxed:
+Once upon a time I was at a lecture in Kyiv where I was shown how to do GitHub bot, but then nothing came of it. So I decided to try **again**. Here the bot is :relaxed:
 
 ## Build status
 
