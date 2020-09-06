@@ -1,4 +1,5 @@
 from .utils import get_info, leave_comment
+from .mail import send_mail
 import gidgethub.routing
 
 router = gidgethub.routing.Router()
@@ -32,6 +33,7 @@ async def issue_created(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     url = event.data["issue"]["comments_url"]
     sender = event.data["sender"]["login"]
+    send_mail('issue')
 
     if sender == 'mezgoodle':
         msg = 'Nice to meet you here, sensei!'
