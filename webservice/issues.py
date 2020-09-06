@@ -33,7 +33,10 @@ async def issue_created(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     url = event.data["issue"]["comments_url"]
     sender = event.data["sender"]["login"]
-    send_mail('issue')
+    try:
+        send_mail('issue')
+    except:
+        print('Okay')
 
     if sender == 'mezgoodle':
         msg = 'Nice to meet you here, sensei!'

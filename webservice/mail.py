@@ -8,7 +8,6 @@ from email.mime.multipart import MIMEMultipart
 def send_mail(type):
 	sender_email = 'mezgoodle@gmail.com'
 	# receiver_email = 'proksima.maxim@gmail.com'
-	password = PASSWORD
 
 	message = MIMEMultipart('alternative')
 	message['Subject'] = 'GitHub Alerts'
@@ -45,7 +44,7 @@ def send_mail(type):
 	# Create secure connection with server and send email
 	context = ssl.create_default_context()
 	with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
-		server.login(sender_email, password)
+		server.login(sender_email, PASSWORD)
 		server.sendmail(
 			sender_email, sender_email, message.as_string()
 		)
