@@ -13,5 +13,4 @@ PyJWT==1.7.1
 python-dotenv==0.14.0
 six==1.15.0
 uritemplate==3.0.1
-yagmail==0.11.224
 yarl==1.4.2
