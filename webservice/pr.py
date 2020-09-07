@@ -1,4 +1,5 @@
 from .utils import get_info, leave_comment
+from .consts import no_association, label_name, bot_name
 import gidgethub.routing
 
 router = gidgethub.routing.Router()
@@ -11,7 +12,7 @@ async def pr_opened(event, gh, *args, **kwargs):
     username = event.data["sender"]["login"]
     token = await get_info(event, gh)
     author_association = event.data["pull_request"]["author_association"]
-    if author_association == 'NONE':
+    if author_association == no_association:
         # first time contributor
         msg = f'Thanks for your first contribution @{username}'
     else:
@@ -27,7 +28,7 @@ async def pr_opened(event, gh, *args, **kwargs):
     await gh.patch(
         issue_url,
         data={
-            'labels': ['needs review'] + labels,
+            'labels': [label_name] + labels,
             'assignees': ['mezgoodle'],
         },
         oauth_token=token["token"],
@@ -44,7 +45,7 @@ async def events_pr(event, gh, *args, **kwargs):
 
     if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
         merged_by = event.data["pull_request"]["merged_by"]["login"]
-        if created_by == merged_by or merged_by == "mezgoodle-bot":
+        if created_by == merged_by or merged_by == bot_name:
             thanks_to = f"Thanks @{created_by} for the PR 🌮🎉."
         else:
             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
