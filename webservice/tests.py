@@ -12,7 +12,7 @@ def test():
                   test_body
                   )
     except BaseException:
-        print('Service not allowed to send mails')
+        print('Service is not allowed to send mails')
 
 
 if __name__ == '__main__':
