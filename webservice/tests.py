@@ -1,5 +1,6 @@
-from .mail import send_mail
-from .consts import *
+from mail import send_mail
+from consts import *
+
 
 def test():
     try:
