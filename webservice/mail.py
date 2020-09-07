@@ -1,4 +1,4 @@
-from .config import PASSWORD
+from config import PASSWORD
 import smtplib
 import ssl
 
