@@ -11,8 +11,8 @@ def test():
                   test_event_url,
                   test_body
                   )
-    except BaseException:
-        print('Okay')
+    except BaseException as e:
+        print(e)
 
 
 if __name__ == '__main__':
