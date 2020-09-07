@@ -1,24 +1,25 @@
 from .utils import get_info, leave_comment
 from .mail import send_mail
+from .consts import pr_type
 import gidgethub.routing
 
 router = gidgethub.routing.Router()
 
 
-@router.register("pull_request", action="opened")
+@router.register(pr_type, action="opened")
 async def pr_opened(event, gh, *args, **kwargs):
-    issue_url = event.data["pull_request"]["issue_url"]
-    labels = event.data["pull_request"]["labels"]
+    issue_url = event.data[pr_type]["issue_url"]
+    labels = event.data[pr_type]["labels"]
     username = event.data["sender"]["login"]
     sender_url = event.data["sender"]["html_url"]
     title = event.data['issue']['title']
     body = event.data['issue']['body']
     token = await get_info(event, gh)
-    author_association = event.data["pull_request"]["author_association"]
+    author_association = event.data[pr_type]["author_association"]
 
     # Send mail
     try:
-        send_mail('issue', title, username, sender_url, issue_url, body)
+        send_mail(pr_type, title, username, sender_url, issue_url, body)
     except BaseException:
         print('Okay')
     if author_association == 'NONE':
@@ -44,16 +45,16 @@ async def pr_opened(event, gh, *args, **kwargs):
     )
 
 
-@router.register("pull_request", action="closed")
-@router.register("pull_request", action="merged")
+@router.register(pr_type, action="closed")
+@router.register(pr_type, action="merged")
 async def events_pr(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
-    created_by = event.data["pull_request"]["user"]["login"]
-    issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
-    info = event.data["pull_request"]["head"]
+    created_by = event.data[pr_type]["user"]["login"]
+    issue_comment_url = event.data[pr_type]["issue_url"] + '/comments'
+    info = event.data[pr_type]["head"]
 
-    if event.data["pull_request"]["merged"] and event.data["pull_request"]["state"] == 'closed':
-        merged_by = event.data["pull_request"]["merged_by"]["login"]
+    if event.data[pr_type]["merged"] and event.data[pr_type]["state"] == 'closed':
+        merged_by = event.data[pr_type]["merged_by"]["login"]
         if created_by == merged_by or merged_by == "mezgoodle-bot":
             thanks_to = f"Thanks @{created_by} for the PR 🌮🎉."
         else:
@@ -75,11 +76,11 @@ async def events_pr(event, gh, *args, **kwargs):
         await gh.delete(url, oauth_token=token["token"],)
 
 
-@router.register("pull_request", action="labeled")
+@router.register(pr_type, action="labeled")
 async def labeled_pr(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
-    user = event.data["pull_request"]["user"]["login"]
+    user = event.data[pr_type]["user"]["login"]
     sender = event.data["sender"]["login"]
-    issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
+    issue_comment_url = event.data[pr_type]["issue_url"] + '/comments'
     message = f"Wow! New label! @{sender}, thank you a lot! @{user}, did you see it?!"
     await leave_comment(gh, issue_comment_url, message, token["token"])

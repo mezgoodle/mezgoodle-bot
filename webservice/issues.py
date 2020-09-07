@@ -1,5 +1,6 @@
 from .utils import get_info, leave_comment
 from .mail import send_mail
+from .consts import issue_type
 import gidgethub.routing
 
 router = gidgethub.routing.Router()
@@ -8,7 +9,7 @@ router = gidgethub.routing.Router()
 @router.register("issues", action="labeled")
 async def labeled_issue(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
-    url = event.data["issue"]["comments_url"]
+    url = event.data[issue_type]["comments_url"]
     sender = event.data["sender"]["login"]
     message = f"Wow! New label! @{sender}, thank you!"
     await leave_comment(gh, url, message, token["token"])
@@ -31,16 +32,16 @@ async def issue_comment_created(event, gh, *args, **kwargs):
 @router.register("issues", action="opened")
 async def issue_created(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
-    url = event.data["issue"]["comments_url"]
+    url = event.data[issue_type]["comments_url"]
     sender = event.data["sender"]["login"]
     sender_url = event.data["sender"]["html_url"]
-    issue_url = event.data["issue"]["html_url"]
+    issue_url = event.data[issue_type]["html_url"]
     title = event.data['issue']['title']
     body = event.data['issue']['body']
 
     # Send mail
     try:
-        send_mail('issue', title, sender, sender_url, issue_url, body)
+        send_mail(issue_type, title, sender, sender_url, issue_url, body)
     except BaseException:
         print('Okay')
 
@@ -55,8 +56,8 @@ async def issue_created(event, gh, *args, **kwargs):
 @router.register("issues", action="closed")
 async def issue_closed(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
-    url = event.data["issue"]["comments_url"]
-    author = event.data["issue"]["user"]["login"]
+    url = event.data[issue_type]["comments_url"]
+    author = event.data[issue_type]["user"]["login"]
     sender = event.data["sender"]["login"]
 
     msg = f'''Thanks for issue, @{author}! @{sender}, thank you for closing this issue, I have less work.
