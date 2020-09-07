@@ -1,5 +1,5 @@
 from aiohttp import web
-import pytest
+# import pytest
 
 from webservice import __main__ as main
 
