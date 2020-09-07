@@ -18,10 +18,10 @@ async def pr_opened(event, gh, *args, **kwargs):
         # seasoned contributor
         msg = f'Welcome back, @{username}. You are the {author_association}.'
     await gh.post(
-                f'{issue_url}/comments',
-                data={'body': msg},
-                oauth_token=token["token"],
-                )
+        f'{issue_url}/comments',
+        data={'body': msg},
+        oauth_token=token["token"],
+    )
 
     # add label
     await gh.patch(

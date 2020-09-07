@@ -37,9 +37,10 @@ async def issue_created(event, gh, *args, **kwargs):
     issue_url = event.data["issue"]["html_url"]
     title = event.data['issue']['title']
     body = event.data['issue']['body']
+
     try:
         send_mail('issue', title, sender, sender_url, issue_url, body)
-    except:
+    except BaseException:
         print('Okay')
 
     if sender == 'mezgoodle':
