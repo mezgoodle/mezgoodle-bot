@@ -110,9 +110,7 @@ git clone https://github.com/mezgoodle/mezgoodle-bot.git
 pip install -r requirements.txt
 ```
 
-3. Set environment variables like:
-
-> Variables in [30](https://github.com/mezgoodle/mezgoodle-bot/blob/master/webservice/__main__.py#L30), [55](https://github.com/mezgoodle/mezgoodle-bot/blob/master/webservice/__main__.py#L55), [56](https://github.com/mezgoodle/mezgoodle-bot/blob/master/webservice/__main__.py#L56) lines.
+3. Rename `.env_sample` to `.env` and set environment variables like or export them like:
 
 - In Unix / Mac OS:
 
