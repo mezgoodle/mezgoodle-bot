@@ -25,3 +25,13 @@ async def test_success(aiohttp_client):
     data = {"action": "created"}
     response = await client.post("/", headers=headers, json=data)
     assert response.status == 200
+
+
+async def test_failure(aiohttp_client):
+    """Even in the face of an exception, the server should not crash."""
+    app = web.Application()
+    app.router.add_post("/", main.main)
+    client = await aiohttp_client(app)
+    # Missing key headers.
+    response = await client.post("/", headers={})
+    assert response.status == 500
