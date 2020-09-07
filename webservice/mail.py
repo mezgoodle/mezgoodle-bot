@@ -5,29 +5,32 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
-def send_mail(type):
-	sender_email = 'mezgoodle@gmail.com'
+def send_mail(type, title, sender, sender_url, issue_url, body):
+	email_address = 'mezgoodle@gmail.com'
 	# receiver_email = 'proksima.maxim@gmail.com'
 
 	message = MIMEMultipart('alternative')
 	message['Subject'] = 'GitHub Alerts'
-	message['From'] = sender_email
-	message['To'] = sender_email
+	message['From'] = email_address
+	message['To'] = email_address
 
-	# HTML-Template
-	text = '''\
+	# Plain Template
+	text = f'''\
 	Hi,
 	How are you?
-	Real Python has many great tutorials:
-	www.realpython.com'''
+	New {type.capitalize()}, {title}, has been created.
+	Link: {issue_url}
+	'''
+
+	# HTML Template
 	html = f'''\
 	<html>
 	<body>
 		<h3>Hi, there are news from GitHub🥳</h3>
 		<ul>
-		<li>New {type}, <a href='http://www.github.com'>GitHub</a>, has been created.</li>
-		<li>Author: <a href='http://www.github.com'>GitHub</a> </li>
-		<li>{type.capitalize()}: <a href='http://www.github.com'>GitHub</a> </li>
+		<li>New {type.capitalize()}, <a href='{issue_url}'>{title}</a>, has been created.</li>
+		<li>Author: <a href='{sender_url}'>{sender}</a></li>
+		<li>Body: {body}</li>
 		</ul>
 	</body>
 	</html>
@@ -44,7 +47,7 @@ def send_mail(type):
 	# Create secure connection with server and send email
 	context = ssl.create_default_context()
 	with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
-		server.login(sender_email, PASSWORD)
+		server.login(email_address, PASSWORD)
 		server.sendmail(
-			sender_email, sender_email, message.as_string()
+			email_address, email_address, message.as_string()
 		)
