@@ -12,8 +12,8 @@ async def pr_opened(event, gh, *args, **kwargs):
     labels = event.data[pr_type]["labels"]
     username = event.data["sender"]["login"]
     sender_url = event.data["sender"]["html_url"]
-    title = event.data['issue']['title']
-    body = event.data['issue']['body']
+    title = event.data[pr_type]['title']
+    body = event.data[pr_type]['body']
     token = await get_info(event, gh)
     author_association = event.data[pr_type]["author_association"]
 
