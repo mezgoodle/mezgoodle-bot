@@ -1,4 +1,5 @@
 from .utils import get_info, leave_comment
+from .consts import admin_nickname
 import gidgethub.routing
 
 router = gidgethub.routing.Router()
@@ -18,7 +19,7 @@ async def issue_comment_created(event, gh, *args, **kwargs):
     username = event.data["sender"]["login"]
     token = await get_info(event, gh)
     comments_url = event.data["comment"]["url"]
-    if username == "mezgoodle":
+    if username == admin_nickname:
         await gh.post(
             f'{comments_url}/reactions',
             data={'content': 'heart'},
@@ -33,7 +34,7 @@ async def issue_created(event, gh, *args, **kwargs):
     url = event.data["issue"]["comments_url"]
     sender = event.data["sender"]["login"]
 
-    if sender == 'mezgoodle':
+    if sender == admin_nickname:
         msg = 'Nice to meet you here, sensei!'
     else:
         msg = f'Nice to meet you, @{sender}\nI wish you have a nice day😊\n@mezgoodle will answer as soon as he can.'
