@@ -1,4 +1,5 @@
 from .utils import get_info, leave_comment
+from .mail import send_mail
 import gidgethub.routing
 
 router = gidgethub.routing.Router()
@@ -9,8 +10,17 @@ async def pr_opened(event, gh, *args, **kwargs):
     issue_url = event.data["pull_request"]["issue_url"]
     labels = event.data["pull_request"]["labels"]
     username = event.data["sender"]["login"]
+    sender_url = event.data["sender"]["html_url"]
+    title = event.data['issue']['title']
+    body = event.data['issue']['body']
     token = await get_info(event, gh)
     author_association = event.data["pull_request"]["author_association"]
+
+    # Send mail
+    try:
+        send_mail('issue', title, username, sender_url, issue_url, body)
+    except BaseException:
+        print('Okay')
     if author_association == 'NONE':
         # first time contributor
         msg = f'Thanks for your first contribution @{username}'

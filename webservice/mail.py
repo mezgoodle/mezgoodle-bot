@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 
-def send_mail(type, title, sender, sender_url, issue_url, body):
+def send_mail(type, title, sender, sender_url, event_url, body):
     email_address = 'mezgoodle@gmail.com'
     # receiver_email = 'proksima.maxim@gmail.com'
 
@@ -20,7 +20,7 @@ def send_mail(type, title, sender, sender_url, issue_url, body):
 	Hi,
 	How are you?
 	New {type.capitalize()}, {title}, has been created.
-	Link: {issue_url}
+	Link: {event_url}
 	'''
 
     # HTML Template
@@ -29,7 +29,7 @@ def send_mail(type, title, sender, sender_url, issue_url, body):
 	<body>
 		<h3>Hi, there are news from GitHub🥳</h3>
 		<ul>
-		<li>New {type.capitalize()}, <a href='{issue_url}'>{title}</a>, has been created.</li>
+		<li>New {type.capitalize()}, <a href='{event_url}'>{title}</a>, has been created.</li>
 		<li>Author: <a href='{sender_url}'>{sender}</a></li>
 		<li>Body: {body}</li>
 		</ul>

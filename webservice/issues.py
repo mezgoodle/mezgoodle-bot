@@ -38,6 +38,7 @@ async def issue_created(event, gh, *args, **kwargs):
     title = event.data['issue']['title']
     body = event.data['issue']['body']
 
+    # Send mail
     try:
         send_mail('issue', title, sender, sender_url, issue_url, body)
     except BaseException:
