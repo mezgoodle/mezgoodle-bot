@@ -38,7 +38,7 @@ async def pr_opened(event, gh, *args, **kwargs):
 @router.register("pull_request", action="closed")
 @router.register("pull_request", action="merged")
 async def events_pr(event, gh, *args, **kwargs):
-    token = await get_info(event, gh)
+    #token = await get_info(event, gh)
     created_by = event.data["pull_request"]["user"]["login"]
     issue_comment_url = event.data["pull_request"]["issue_url"] + '/comments'
     info = event.data["pull_request"]["head"]
@@ -63,7 +63,7 @@ async def events_pr(event, gh, *args, **kwargs):
         ref = info["ref"]
         repo = info["repo"]["name"]
         url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
-        await gh.delete(url, oauth_token=token["token"],)
+        await gh.delete(url)
 
 
 @router.register("pull_request", action="labeled")

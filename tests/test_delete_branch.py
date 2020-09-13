@@ -16,14 +16,13 @@ async def test_branch_deleted_when_pr_merged():
         "action": "closed",
         "pull_request": {
             "number": 5722,
-            "user": {"login": "mezgoodle"},
+            "user": {"login": "mezgoodle-bot"},
             "merged": True,
             "merged_by": {"login": "mezgoodle"},
             "head": {"ref": "backport-17ab8f0-3.7", "user": {"login": 'mezgoodle'}, "repo": {"name": 'some_name'}},
             'issue_url': 'issue_url',
             'state': 'closed',
         },
-        "installation": {"id": 'some_id'},
     }
     event = sansio.Event(data, event="pull_request", delivery_id="1")
 
