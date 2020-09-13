@@ -58,7 +58,7 @@ async def events_pr(event, gh, *args, **kwargs):
         url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
         await gh.delete(url, oauth_token=token["token"],)
     else:
-        await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
+        #await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
         owner = info["user"]["login"]
         ref = info["ref"]
         repo = info["repo"]["name"]
