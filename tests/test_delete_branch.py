@@ -31,5 +31,5 @@ async def test_branch_deleted_when_pr_merged():
     assert gh.post_data is None  # does not leave a comment
     assert (
         gh.delete_url
-        == f"/repos/{data["pull_request"]["head"]["user"]["login"]}/{data["pull_request"]["head"]["repo"]["name"]}/git/refs/heads/{data["pull_request"]["head"]["ref"]}"
+        == f"/repos/mezgoodle/some_name/git/refs/heads/backport-17ab8f0-3.7"
     )
