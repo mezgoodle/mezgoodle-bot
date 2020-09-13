@@ -16,7 +16,7 @@ async def test_branch_deleted_when_pr_merged():
         "action": "closed",
         "pull_request": {
             "number": 5722,
-            "user": {"login": "mezgoodle-bot"},
+            "user": {"login": "mezgoodle"},
             "merged": True,
             "merged_by": {"login": "mezgoodle"},
             "head": {"ref": "backport-17ab8f0-3.7"},
