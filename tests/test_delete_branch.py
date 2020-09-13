@@ -1,6 +1,6 @@
 from gidgethub import sansio
 
-from webservice import pr
+from webservice import pr, consts
 
 
 class FakeGH:
@@ -15,11 +15,11 @@ async def test_branch_deleted_when_pr_merged():
     data = {
         "action": "closed",
         "pull_request": {
-            "number": 5722,
-            "user": {"login": "mezgoodle-bot"},
+            "number": consts.test_number,
+            "user": {"login": consts.bot_name},
             "merged": True,
-            "merged_by": {"login": "mezgoodle"},
-            "head": {"ref": "backport-17ab8f0-3.7", "user": {"login": 'mezgoodle'}, "repo": {"name": 'some_name'}},
+            "merged_by": {"login": consts.admin_nickname},
+            "head": {"ref": consts.test_ref, "user": {"login": consts.admin_nickname}, "repo": {"name": consts.test_repo_name}},
             'issue_url': 'issue_url',
             'state': 'closed',
         },
@@ -31,5 +31,5 @@ async def test_branch_deleted_when_pr_merged():
     assert gh.post_data is None  # does not leave a comment
     assert (
         gh.delete_url
-        == f"/repos/mezgoodle/some_name/git/refs/heads/backport-17ab8f0-3.7"
+        == f"/repos/{consts.admin_nickname}/{consts.test_repo_name}/git/refs/heads/{consts.test_ref}"
     )
