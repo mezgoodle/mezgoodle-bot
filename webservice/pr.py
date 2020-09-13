@@ -51,12 +51,12 @@ async def events_pr(event, gh, *args, **kwargs):
             thanks_to = f"Thanks @{created_by} for the PR, and @{merged_by} for merging it 🌮🎉."
         message = f"{thanks_to}\n🐍🍒⛏🤖 I am not robot! I am not robot!"
 
-        await leave_comment(gh, issue_comment_url, message, token["token"])
+        #await leave_comment(gh, issue_comment_url, message, token["token"])
         owner = info["user"]["login"]
         ref = info["ref"]
         repo = info["repo"]["name"]
         url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
-        await gh.delete(url, oauth_token=token["token"],)
+        await gh.delete(url)
     else:
         #await leave_comment(gh, issue_comment_url, f'Okey, @{created_by}, see you next time', token["token"])
         owner = info["user"]["login"]
