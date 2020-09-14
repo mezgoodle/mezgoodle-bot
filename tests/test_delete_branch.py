@@ -29,7 +29,7 @@ async def test_branch_deleted_when_pr_closed():
     event = sansio.Event(data, event='pull_request', delivery_id='1')
 
     gh = FakeGH()
-    await delete_branch.router.dispatch(event, gh)
+    await pr.router.dispatch(event, gh)
     assert gh.post_data is None  # does not leave a comment
     assert (
         gh.delete_url
