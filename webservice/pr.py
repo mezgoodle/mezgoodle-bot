@@ -37,6 +37,7 @@ async def pr_opened(event, gh, *args, **kwargs):
         )
     else:
         await gh.post(f'{issue_url}/comments')
+        await gh.patch(issue_url)
 
 
 @router.register('pull_request', action='closed')

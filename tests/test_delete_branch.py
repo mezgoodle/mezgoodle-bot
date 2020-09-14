@@ -13,6 +13,9 @@ class FakeGH:
     async def post(self, url):
         self.post_url = url
 
+    async def patch(self, url):
+        self.patch_url = url
+
 
 async def test_pr_opened():
     data = consts.test_data_2
@@ -21,8 +24,10 @@ async def test_pr_opened():
     gh = FakeGH()
     await pr.router.dispatch(event, gh)
     assert (
-        gh.post_url
-        == f'{consts.issue_url}/comments'
+        gh.post_url == f'{consts.issue_url}/comments'
+    )
+    assert (
+        gh.patch_url == issue_url
     )
 
 
