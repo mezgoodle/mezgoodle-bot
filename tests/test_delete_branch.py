@@ -10,6 +10,21 @@ class FakeGH:
     async def delete(self, url):
         self.delete_url = url
 
+    async def post(self, url):
+        self.post_url = url
+
+
+async def test_pr_opened():
+    data = consts.test_data_2
+    event = sansio.Event(data, event='pull_request', delivery_id='1')
+
+    gh = FakeGH()
+    await pr.router.dispatch(event, gh)
+    assert (
+        gh.post_url
+        == f'{consts.issue_url}/comments'
+    )
+
 
 async def test_branch_deleted_when_pr_merged():
     data = consts.test_data

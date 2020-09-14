@@ -18,21 +18,25 @@ async def pr_opened(event, gh, *args, **kwargs):
     else:
         # seasoned contributor
         msg = f'Welcome back, @{username}. You are the {author_association}.'
-    await gh.post(
+
+    if token:
+        await gh.post(
                 f'{issue_url}/comments',
                 data={'body': msg},
                 oauth_token=token['token'],
                 )
 
-    # add label
-    await gh.patch(
-        issue_url,
-        data={
-            'labels': [label_name] + labels,
-            'assignees': ['mezgoodle'],
-        },
-        oauth_token=token['token'],
-    )
+        # add label
+        await gh.patch(
+            issue_url,
+            data={
+                'labels': [label_name] + labels,
+                'assignees': ['mezgoodle'],
+            },
+            oauth_token=token['token'],
+        )
+    else:
+        await gh.post(f'{issue_url}/comments')
 
 
 @router.register('pull_request', action='closed')

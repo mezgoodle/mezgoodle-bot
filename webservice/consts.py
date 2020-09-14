@@ -36,3 +36,14 @@ test_data_1 = {
         'state': 'closed',
     },
 }
+test_data_2 = {
+    'action': 'opened',
+    'pull_request': {
+        'number': test_number,
+        'author_association': 'owner',
+        'issue_url': issue_url,
+        'state': 'closed',
+        'labels': 'labels'
+    },
+    'sender': {'login': admin_nickname}
+}
