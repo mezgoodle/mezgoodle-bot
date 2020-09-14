@@ -1,3 +1,5 @@
+"""Installation the bot trigger"""
+
 import asyncio
 import os
 import sys
@@ -21,26 +23,28 @@ cache = cachetools.LRUCache(maxsize=500)
 routes = web.RouteTableDef()
 
 
-@routes.get("/", name="home")
+@routes.get('/', name='home')
 async def handle_get(request):
-    return web.Response(text="Hello world")
+    """Just check if server is running"""
+    return web.Response(text='Hello world')
 
 
-@routes.post("/webhook")
+@routes.post('/webhook')
 async def webhook(request):
+    """Work with webhooks and start the bot"""
     try:
         body = await request.read()
         secret = SECRET
         event = sansio.Event.from_http(request.headers, body, secret=secret)
-        if event.event == "ping":
+        if event.event == 'ping':
             return web.Response(status=200)
         async with aiohttp.ClientSession() as session:
-            gh = gh_aiohttp.GitHubAPI(session, "demo", cache=cache)
+            gh = gh_aiohttp.GitHubAPI(session, 'demo', cache=cache)
 
             await asyncio.sleep(1)
             await router.dispatch(event, gh)
         try:
-            print("GH requests remaining:", gh.rate_limit.remaining)
+            print('GH requests remaining:', gh.rate_limit.remaining)
         except AttributeError:
             pass
         return web.Response(status=200)
@@ -50,11 +54,11 @@ async def webhook(request):
         return web.Response(status=500)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = web.Application()
 
     app.router.add_routes(routes)
-    port = os.environ.get("PORT")
+    port = os.environ.get('PORT')
     if port is not None:
         port = int(port)
     web.run_app(app, port=port)
