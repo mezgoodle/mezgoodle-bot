@@ -7,6 +7,17 @@ test_repo_name = 'some_name'
 test_number = 5772
 issue_url = 'https://api.github.com/issue/123'
 test_data = {
+    'action': 'opened',
+    'pull_request': {
+        'number': test_number,
+        'author_association': 'owner',
+        'issue_url': issue_url,
+        'state': 'closed',
+        'labels': 'labels'
+    },
+    'sender': {'login': admin_nickname}
+}
+test_data_1 = {
     'action': 'closed',
     'pull_request': {
         'number': test_number,
@@ -21,7 +32,7 @@ test_data = {
         'state': 'closed',
     },
 }
-test_data_1 = {
+test_data_2 = {
     'action': 'closed',
     'pull_request': {
         'number': test_number,
@@ -35,15 +46,4 @@ test_data_1 = {
         'issue_url': issue_url,
         'state': 'closed',
     },
-}
-test_data_2 = {
-    'action': 'opened',
-    'pull_request': {
-        'number': test_number,
-        'author_association': 'owner',
-        'issue_url': issue_url,
-        'state': 'closed',
-        'labels': 'labels'
-    },
-    'sender': {'login': admin_nickname}
 }

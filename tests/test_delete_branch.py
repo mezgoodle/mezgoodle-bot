@@ -18,7 +18,7 @@ class FakeGH:
 
 
 async def test_pr_opened():
-    data = consts.test_data_2
+    data = consts.test_data
     event = sansio.Event(data, event='pull_request', delivery_id='1')
 
     gh = FakeGH()
@@ -32,7 +32,7 @@ async def test_pr_opened():
 
 
 async def test_branch_deleted_when_pr_merged():
-    data = consts.test_data
+    data = consts.test_data_1
     event = sansio.Event(data, event='pull_request', delivery_id='1')
 
     gh = FakeGH()
@@ -45,7 +45,7 @@ async def test_branch_deleted_when_pr_merged():
 
 
 async def test_branch_deleted_when_pr_closed():
-    data = consts.test_data_1
+    data = consts.test_data_2
     event = sansio.Event(data, event='pull_request', delivery_id='1')
 
     gh = FakeGH()
