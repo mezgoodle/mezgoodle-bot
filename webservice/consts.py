@@ -6,7 +6,7 @@ test_ref = 'backport-17ab8f0-3.7'
 test_repo_name = 'some_name'
 test_number = 5772
 issue_url = 'https://api.github.com/issue/123'
-test_data = {
+test_data_pr = {
     'action': 'opened',
     'pull_request': {
         'number': test_number,
@@ -17,7 +17,7 @@ test_data = {
     },
     'sender': {'login': admin_nickname}
 }
-test_data_1 = {
+test_data_pr_1 = {
     'action': 'closed',
     'pull_request': {
         'number': test_number,
@@ -32,7 +32,7 @@ test_data_1 = {
         'state': 'closed',
     },
 }
-test_data_2 = {
+test_data_pr_2 = {
     'action': 'closed',
     'pull_request': {
         'number': test_number,
@@ -46,4 +46,11 @@ test_data_2 = {
         'issue_url': issue_url,
         'state': 'closed',
     },
+}
+test_data_pr = {
+    'action': 'created',
+    'comment': {
+        'url': issue_url,
+    },
+    'sender': {'login': admin_nickname}
 }

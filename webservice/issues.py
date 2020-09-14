@@ -20,12 +20,15 @@ async def issue_comment_created(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     comments_url = event.data['comment']['url']
     if username == admin_nickname:
-        await gh.post(
-            f'{comments_url}/reactions',
-            data={'content': 'heart'},
-            oauth_token=token['token'],
-            accept='application/vnd.github.squirrel-girl-preview+json'
-        )
+        if token:
+            await gh.post(
+                f'{comments_url}/reactions',
+                data={'content': 'heart'},
+                oauth_token=token['token'],
+                accept='application/vnd.github.squirrel-girl-preview+json'
+            )
+        else:
+            await gh.post(f'{comments_url}/reactions')
 
 
 @router.register('issues', action='opened')
