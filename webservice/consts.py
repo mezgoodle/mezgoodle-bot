@@ -1,61 +1,63 @@
-admin_nickname = 'mezgoodle'
-no_association = 'NONE'
-label_name = 'needs review'
-bot_name = 'mezgoodle-bot'
-test_ref = 'backport-17ab8f0-3.7'
-test_repo_name = 'some_name'
-test_number = 5772
-issue_url = 'https://api.github.com/issue/123'
-test_data_pr = {
+"""All constants in project"""
+
+ADMIN_NICKNAME = 'mezgoodle'
+NO_ASSOCIATION = 'NONE'
+LABEL_NAME = 'needs review'
+BOT_NAME = 'mezgoodle-bot'
+TEST_REF = 'backport-17ab8f0-3.7'
+TEST_REPO_NAME = 'some_name'
+TEST_NUMBER = 5772
+ISSUE_URL = 'https://api.github.com/issue/123'
+TEST_DATA_PR = {
     'action': 'opened',
     'pull_request': {
-        'number': test_number,
+        'number': TEST_NUMBER,
         'author_association': 'owner',
-        'issue_url': issue_url,
+        'issue_url': ISSUE_URL,
         'state': 'closed',
         'labels': 'labels'
     },
-    'sender': {'login': admin_nickname}
+    'sender': {'login': ADMIN_NICKNAME}
 }
-test_data_pr_1 = {
+TEST_DATA_PR_1 = {
     'action': 'closed',
     'pull_request': {
-        'number': test_number,
-        'user': {'login': bot_name},
+        'number': TEST_NUMBER,
+        'user': {'login': BOT_NAME},
         'merged': True,
-        'merged_by': {'login': admin_nickname},
+        'merged_by': {'login': ADMIN_NICKNAME},
         'head': {
-            'ref': test_ref, 'user': {'login': admin_nickname},
-            'repo': {'name': test_repo_name}
+            'ref': TEST_REF, 'user': {'login': ADMIN_NICKNAME},
+            'repo': {'name': TEST_REPO_NAME}
         },
-        'issue_url': issue_url,
+        'issue_url': ISSUE_URL,
         'state': 'closed',
     },
 }
-test_data_pr_2 = {
+TEST_DATA_PR_2 = {
     'action': 'closed',
     'pull_request': {
-        'number': test_number,
-        'user': {'login': bot_name},
+        'number': TEST_NUMBER,
+        'user': {'login': BOT_NAME},
         'merged': False,
         'merged_by': {'login': None},
         'head': {
-            'ref': test_ref, 'user': {'login': admin_nickname},
-            'repo': {'name': test_repo_name}
+            'ref': TEST_REF, 'user': {'login': ADMIN_NICKNAME},
+            'repo': {'name': TEST_REPO_NAME}
         },
-        'issue_url': issue_url,
+        'issue_url': ISSUE_URL,
         'state': 'closed',
     },
 }
-test_data_issues = {
+TEST_DATA_ISSUES = {
     'action': 'created',
     'comment': {
-        'url': issue_url,
+        'url': ISSUE_URL,
     },
-    'sender': {'login': admin_nickname}
+    'sender': {'login': ADMIN_NICKNAME}
 }
-test_data_installation = {
+TEST_DATA_INSTALLATION = {
     'action': 'created',
-    'repositories': [{'full_name': bot_name}],
-    'sender': {'login': admin_nickname}
+    'repositories': [{'full_name': BOT_NAME}],
+    'sender': {'login': ADMIN_NICKNAME}
 }

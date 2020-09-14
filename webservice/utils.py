@@ -1,8 +1,11 @@
+"""Utils that use in different files"""
+
 from gidgethub import apps
 from .config import PRIVATE_KEY, APP_ID
 
 
 async def get_info(event, gh):
+    """Get token and intstallation id"""
     if hasattr(event.data, 'installation'):
         installation_id = event.data['installation']['id']
         installation_access_token = await apps.get_installation_access_token(
@@ -17,6 +20,7 @@ async def get_info(event, gh):
 
 
 async def leave_comment(gh, issue_comment_url, message, token):
+    """Leave comment in issue or pull request"""
     data = {'body': message}
     await gh.post(
         f'{issue_comment_url}',

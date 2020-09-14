@@ -1,12 +1,16 @@
+"""Pull requests trigger"""
+
+import gidgethub.routing
+
 from .utils import get_info, leave_comment
 from .consts import no_association, label_name, bot_name
-import gidgethub.routing
 
 router = gidgethub.routing.Router()
 
 
 @router.register('pull_request', action='opened')
 async def pr_opened(event, gh, *args, **kwargs):
+    """Opened pull request"""
     issue_url = event.data['pull_request']['issue_url']
     labels = event.data['pull_request']['labels']
     username = event.data['sender']['login']
@@ -43,6 +47,7 @@ async def pr_opened(event, gh, *args, **kwargs):
 @router.register('pull_request', action='closed')
 @router.register('pull_request', action='merged')
 async def events_pr(event, gh, *args, **kwargs):
+    """Closed or merged pull request"""
     token = await get_info(event, gh)
     created_by = event.data['pull_request']['user']['login']
     issue_comment_url = event.data['pull_request']['issue_url'] + '/comments'
@@ -80,6 +85,7 @@ async def events_pr(event, gh, *args, **kwargs):
 
 @router.register('pull_request', action='labeled')
 async def labeled_pr(event, gh, *args, **kwargs):
+    """Labeled pull request"""
     token = await get_info(event, gh)
     user = event.data['pull_request']['user']['login']
     sender = event.data['sender']['login']

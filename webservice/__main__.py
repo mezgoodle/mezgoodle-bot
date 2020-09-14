@@ -1,3 +1,5 @@
+"""Installation the bot trigger"""
+
 import asyncio
 import os
 import sys
@@ -23,11 +25,13 @@ routes = web.RouteTableDef()
 
 @routes.get('/', name='home')
 async def handle_get(request):
+    """Just check if server is running"""
     return web.Response(text='Hello world')
 
 
 @routes.post('/webhook')
 async def webhook(request):
+    """Work with webhooks and start the bot"""
     try:
         body = await request.read()
         secret = SECRET
