@@ -7,8 +7,8 @@ from webservice import issues, consts
 
 class FakeGH:
 	"""Create fake GitHub object"""
-    def __init__(self):
-        self.post_data = None
+	def __init__(self):
+		self.post_data = None
 
     async def post(self, url):
     	"""Trigger post method"""
