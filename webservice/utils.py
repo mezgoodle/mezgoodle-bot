@@ -17,12 +17,9 @@ async def get_info(event, gh):
 
 
 async def leave_comment(gh, issue_comment_url, message, token):
-    if token:
-        data = {"body": message}
-        await gh.post(
-            f'{issue_comment_url}',
-            data=data,
-            oauth_token=token
-        )
-    else:
-        pass # For testing
+    data = {"body": message}
+    await gh.post(
+        f'{issue_comment_url}',
+        data=data,
+        oauth_token=token
+    )
