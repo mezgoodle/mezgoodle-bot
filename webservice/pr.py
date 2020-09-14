@@ -64,7 +64,7 @@ async def events_pr(event, gh, *args, **kwargs):
         ref = info["ref"]
         repo = info["repo"]["name"]
         url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
-        await gh.delete(url, oauth_token=token["token"],)
+        await gh.delete(url)
 
 
 @router.register("pull_request", action="labeled")
