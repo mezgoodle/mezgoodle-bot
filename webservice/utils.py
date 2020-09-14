@@ -4,7 +4,7 @@ from .config import PRIVATE_KEY, APP_ID
 
 async def get_info(event, gh):
     if hasattr(event.data, 'installation'):
-        installation_id = event.data["installation"]["id"]
+        installation_id = event.data['installation']['id']
         installation_access_token = await apps.get_installation_access_token(
             gh,
             installation_id=installation_id,
@@ -17,7 +17,7 @@ async def get_info(event, gh):
 
 
 async def leave_comment(gh, issue_comment_url, message, token):
-    data = {"body": message}
+    data = {'body': message}
     await gh.post(
         f'{issue_comment_url}',
         data=data,
