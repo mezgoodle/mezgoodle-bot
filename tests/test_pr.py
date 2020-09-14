@@ -51,8 +51,7 @@ async def test_branch_deleted_when_pr_merged():
     assert gh.post_data is None  # does not leave a comment
     assert (
         gh.delete_url
-        == f'/repos/{consts.ADMIN_NICKNAME}/{consts.TEST_REPO_NAME}\
-        /git/refs/heads/{consts.TEST_REF}'
+        == f'/repos/{consts.ADMIN_NICKNAME}/{consts.TEST_REPO_NAME}/git/refs/heads/{consts.TEST_REF}'
     )
 
 
@@ -66,6 +65,5 @@ async def test_branch_deleted_when_pr_closed():
     assert gh.post_data is None  # does not leave a comment
     assert (
         gh.delete_url
-        == f'/repos/{consts.ADMIN_NICKNAME}/{consts.TEST_REPO_NAME}\
-        /git/refs/heads/{consts.TEST_REF}'
+        == f'/repos/{consts.ADMIN_NICKNAME}/{consts.TEST_REPO_NAME}/git/refs/heads/{consts.TEST_REF}'
     )
