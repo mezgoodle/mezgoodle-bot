@@ -9,7 +9,7 @@ class FakeGH:
     """Create fake GitHub object"""
 
     def __init__(self):
-        self.post_data = None
+        self.post_url = None
 
     async def post(self, url):
         """Trigger post method"""
