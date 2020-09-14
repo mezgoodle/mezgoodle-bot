@@ -59,4 +59,3 @@ test_data_installation = {
     'repositories': [{'full_name': bot_name}],
     'sender': {'login': admin_nickname}
 }
-
