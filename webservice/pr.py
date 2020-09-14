@@ -23,7 +23,7 @@ async def pr_opened(event, gh, *args, **kwargs):
         # seasoned contributor
         msg = f'Welcome back, @{username}. You are the {author_association}.'
 
-    if token:
+    if token is not None:
         await gh.post(
             f'{issue_url}/comments',
             data={'body': msg},
@@ -65,7 +65,7 @@ async def events_pr(event, gh, *args, **kwargs):
         ref = info['ref']
         repo = info['repo']['name']
         url = f'/repos/{owner}/{repo}/git/refs/heads/{ref}'
-        if token:
+        if token is not None:
             await leave_comment(gh, issue_comment_url, message, token['token'])
             await gh.delete(url, oauth_token=token['token'],)
         else:  # For tests
@@ -76,7 +76,7 @@ async def events_pr(event, gh, *args, **kwargs):
         ref = info['ref']
         repo = info['repo']['name']
         url = f'/repos/{owner}/{repo}/git/refs/heads/{ref}'
-        if token:
+        if token is not None:
             await leave_comment(gh, issue_comment_url, message, token['token'])
             await gh.delete(url, oauth_token=token['token'],)
         else:  # For tests

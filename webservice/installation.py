@@ -15,7 +15,7 @@ async def repo_installation_added(event, gh, *args, **kwargs):
     for repo in event.data['repositories']:
 
         repo_full_name = repo['full_name']
-        if token:
+        if token is not None:
             response = await gh.post(
                 f'/repos/{repo_full_name}/issues',
                 data={
