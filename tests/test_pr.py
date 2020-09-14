@@ -7,6 +7,7 @@ from webservice import pr, consts
 
 class FakeGH:
     """Create fake GitHub object"""
+
     def __init__(self):
         self.post_data = None
         self.delete_url = None

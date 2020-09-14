@@ -27,9 +27,9 @@ async def repo_installation_added(event, gh, *args, **kwargs):
             )
             issue_url = response['url']
             await gh.patch(
-                        issue_url,
-                        data={'state': 'closed'},
-                        oauth_token=token['token'],
-                    )
+                issue_url,
+                data={'state': 'closed'},
+                oauth_token=token['token'],
+            )
         else:
             await gh.post(f'/repos/{repo_full_name}/issues')

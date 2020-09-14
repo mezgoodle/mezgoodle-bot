@@ -7,12 +7,13 @@ from webservice import installation, consts
 
 class FakeGH:
     """Create fake GitHub object"""
+
     def __init__(self):
-	    self.post_data = None
+        self.post_data = None
 
     async def post(self, url):
-	    """Trigger post method"""
-	    self.post_url = url
+        """Trigger post method"""
+        self.post_url = url
 
 
 async def test_installation():

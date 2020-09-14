@@ -25,10 +25,10 @@ async def pr_opened(event, gh, *args, **kwargs):
 
     if token:
         await gh.post(
-                f'{issue_url}/comments',
-                data={'body': msg},
-                oauth_token=token['token'],
-                )
+            f'{issue_url}/comments',
+            data={'body': msg},
+            oauth_token=token['token'],
+        )
 
         # add label
         await gh.patch(
