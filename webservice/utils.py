@@ -13,7 +13,7 @@ async def get_info(event, gh):
         )
         return installation_access_token
     else:
-        return None # For testing
+        return None  # For testing
 
 
 async def leave_comment(gh, issue_comment_url, message, token):

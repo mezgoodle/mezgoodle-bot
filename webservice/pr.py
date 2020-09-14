@@ -58,7 +58,7 @@ async def events_pr(event, gh, *args, **kwargs):
         if token:
             await leave_comment(gh, issue_comment_url, message, token["token"])
             await gh.delete(url, oauth_token=token["token"],)
-        else: # For tests
+        else:  # For tests
             await gh.delete(url)
     else:
         message = f'Okey, @{created_by}, see you next time'
@@ -69,7 +69,7 @@ async def events_pr(event, gh, *args, **kwargs):
         if token:
             await leave_comment(gh, issue_comment_url, message, token["token"])
             await gh.delete(url, oauth_token=token["token"],)
-        else: # For tests
+        else:  # For tests
             await gh.delete(url)
 
 
