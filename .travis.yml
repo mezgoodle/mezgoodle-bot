@@ -16,4 +16,4 @@ script:
   - # test with pytest
   - pytest tests/
   - # lint with pylint
-  - pylint webservice
+  - pylint tests
