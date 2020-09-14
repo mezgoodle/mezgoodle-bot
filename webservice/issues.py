@@ -31,6 +31,7 @@ async def issue_comment_created(event, gh, *args, **kwargs):
 @router.register("issues", action="opened")
 async def issue_created(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
+    print(token)
     url = event.data["issue"]["comments_url"]
     sender = event.data["sender"]["login"]
 

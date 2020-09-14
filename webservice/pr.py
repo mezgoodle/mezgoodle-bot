@@ -11,6 +11,7 @@ async def pr_opened(event, gh, *args, **kwargs):
     labels = event.data["pull_request"]["labels"]
     username = event.data["sender"]["login"]
     token = await get_info(event, gh)
+    print(token)
     author_association = event.data["pull_request"]["author_association"]
     if author_association == no_association:
         # first time contributor
