@@ -61,3 +61,4 @@ TEST_DATA_INSTALLATION = {
     'repositories': [{'full_name': BOT_NAME}],
     'sender': {'login': ADMIN_NICKNAME}
 }
+HEADERS = {'x-github-event': 'ping', 'x-github-delivery': '1234'}
