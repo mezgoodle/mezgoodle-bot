@@ -10,9 +10,9 @@ class FakeGH:
 	def __init__(self):
 		self.post_data = None
 
-    async def post(self, url):
-    	"""Trigger post method"""
-        self.post_url = url
+	async def post(self, url):
+		"""Trigger post method"""
+		self.post_url = url
 
 
 async def test_installation():
