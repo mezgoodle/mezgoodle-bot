@@ -27,7 +27,7 @@ async def test_pr_opened():
         gh.post_url == f'{consts.issue_url}/comments'
     )
     assert (
-        gh.patch_url == issue_url
+        gh.patch_url == consts.issue_url
     )
 
 
