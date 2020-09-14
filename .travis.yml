@@ -5,7 +5,7 @@ python:
 # command to install dependencies
 install:
   - python -m pip install --upgrade pip
-  - pip install flake8 pytest pylint
+  - pip install flake8 pytest
   - pip install -r dev-requirements.txt
 # command to run tests
 script:
@@ -15,5 +15,3 @@ script:
   - flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
   - # test with pytest
   - pytest tests/
-  - # lint with pylint
-  - pylint tests
