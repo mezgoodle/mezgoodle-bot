@@ -9,15 +9,30 @@ issue_url = 'https://api.github.com/issue/123'
 test_data = {
     'action': 'closed',
     'pull_request': {
-        'number': consts.test_number,
-        'user': {'login': consts.bot_name},
+        'number': test_number,
+        'user': {'login': bot_name},
         'merged': True,
-        'merged_by': {'login': consts.admin_nickname},
+        'merged_by': {'login': admin_nickname},
         'head': {
-            'ref': consts.test_ref, 'user': {'login': consts.admin_nickname},
-            'repo': {'name': consts.test_repo_name}
+            'ref': test_ref, 'user': {'login': admin_nickname},
+            'repo': {'name': test_repo_name}
         },
-        'issue_url': consts.issue_url,
+        'issue_url': issue_url,
+        'state': 'closed',
+    },
+}
+test_data_1 = {
+    'action': 'closed',
+    'pull_request': {
+        'number': test_number,
+        'user': {'login': bot_name},
+        'merged': False,
+        'merged_by': {'login': None},
+        'head': {
+            'ref': test_ref, 'user': {'login': admin_nickname},
+            'repo': {'name': test_repo_name}
+        },
+        'issue_url': issue_url,
         'state': 'closed',
     },
 }
