@@ -11,7 +11,6 @@ async def pr_opened(event, gh, *args, **kwargs):
     labels = event.data["pull_request"]["labels"]
     username = event.data["sender"]["login"]
     token = await get_info(event, gh)
-    print(token)
     author_association = event.data["pull_request"]["author_association"]
     if author_association == no_association:
         # first time contributor
@@ -64,7 +63,7 @@ async def events_pr(event, gh, *args, **kwargs):
         ref = info["ref"]
         repo = info["repo"]["name"]
         url = f"/repos/{owner}/{repo}/git/refs/heads/{ref}"
-        await gh.delete(url)
+        await gh.delete(url, oauth_token=token["token"],)
 
 
 @router.register("pull_request", action="labeled")
