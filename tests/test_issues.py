@@ -12,7 +12,7 @@ class FakeGH:
 
 
 async def test_issue_opened():
-    data = consts.test_data
+    data = consts.test_data_issues
     event = sansio.Event(data, event='issue_comment', delivery_id='1')
 
     gh = FakeGH()

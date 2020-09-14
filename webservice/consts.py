@@ -47,7 +47,7 @@ test_data_pr_2 = {
         'state': 'closed',
     },
 }
-test_data_pr = {
+test_data_issues = {
     'action': 'created',
     'comment': {
         'url': issue_url,
