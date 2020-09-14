@@ -1,9 +1,12 @@
+"""Test bot as app on server"""
+
 from aiohttp import web
 
 from webservice import __main__ as main
 
 
 async def test_ping(aiohttp_client):
+    """Test launch the app"""
     app = web.Application()
     app.router.add_post('/', main.webhook)
     client = await aiohttp_client(app)
@@ -15,6 +18,7 @@ async def test_ping(aiohttp_client):
 
 
 async def test_success(aiohttp_client):
+    """Test success action"""
     app = web.Application()
     app.router.add_post('/', main.webhook)
     client = await aiohttp_client(app)
@@ -28,7 +32,7 @@ async def test_success(aiohttp_client):
 
 
 async def test_failure(aiohttp_client):
-    """Even in the face of an exception, the server should not crash."""
+    """Test the app without headers"""
     app = web.Application()
     app.router.add_post('/', main.webhook)
     client = await aiohttp_client(app)
