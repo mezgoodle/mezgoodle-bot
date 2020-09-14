@@ -11,16 +11,19 @@ async def repo_installation_added(event, gh, *args, **kwargs):
     for repo in event.data['repositories']:
 
         repo_full_name = repo['full_name']
-        response = await gh.post(
-            f'/repos/{repo_full_name}/issues',
-            data={
-                'title': 'Thanks for installing me!',
-                'body': f'You are the best! @{sender_name}\n Also my creator is @mezgoodle. There you can find my body)'
-            },
-            oauth_token=token['token'],
-        )
-        issue_url = response['url']
-        await gh.patch(issue_url,
-                       data={'state': 'closed'},
-                       oauth_token=token['token'],
-                       )
+        if token:
+            response = await gh.post(
+                f'/repos/{repo_full_name}/issues',
+                data={
+                    'title': 'Thanks for installing me!',
+                    'body': f'You are the best! @{sender_name}\n Also my creator is @mezgoodle. There you can find my body)'
+                },
+                oauth_token=token['token'],
+            )
+            issue_url = response['url']
+            await gh.patch(issue_url,
+                        data={'state': 'closed'},
+                        oauth_token=token['token'],
+                        )
+        else:
+            await gh.post(f'/repos/{repo_full_name}/issues')

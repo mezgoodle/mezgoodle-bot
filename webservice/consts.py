@@ -54,3 +54,9 @@ test_data_issues = {
     },
     'sender': {'login': admin_nickname}
 }
+test_data_installation = {
+    'action': 'created',
+    'repositories': [{'full_name': bot_name}],
+    'sender': {'login': admin_nickname}
+}
+
