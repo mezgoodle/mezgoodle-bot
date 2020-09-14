@@ -9,11 +9,11 @@ class FakeGH:
 
 
 async def test_installation():
-    data = consts.test_data_installation
+    data = consts.TEST_DATA_INSTALLATION
     event = sansio.Event(data, event='installation', delivery_id='1')
 
     gh = FakeGH()
     await installation.router.dispatch(event, gh)
     assert (
-        gh.post_url == f'/repos/{consts.bot_name}/issues'
+        gh.post_url == f'/repos/{consts.BOT_NAME}/issues'
     )
