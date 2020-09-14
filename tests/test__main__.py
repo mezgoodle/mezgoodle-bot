@@ -28,7 +28,7 @@ async def test_success(aiohttp_client):
 
 
 async def test_failure(aiohttp_client):
-    '''Even in the face of an exception, the server should not crash.'''
+    """Even in the face of an exception, the server should not crash."""
     app = web.Application()
     app.router.add_post('/', main.webhook)
     client = await aiohttp_client(app)
