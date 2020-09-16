@@ -3,17 +3,7 @@
 from gidgethub import sansio
 
 from webservice import installation, consts
-
-
-class FakeGH:
-    """Create fake GitHub object"""
-
-    def __init__(self):
-        self.post_url = None
-
-    async def post(self, url):
-        """Trigger post method"""
-        self.post_url = url
+from .gh import FakeGH
 
 
 async def test_installation():
