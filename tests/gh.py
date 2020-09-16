@@ -1,5 +1,6 @@
 """Common class for testing"""
 
+
 class FakeGH:
     """Create fake GitHub object"""
 
