@@ -32,6 +32,7 @@ Once upon a time I was at a lecture in Kyiv where I was shown how to do GitHub b
 Here you can see build status of [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration):
 
 [![Build Status](https://travis-ci.com/mezgoodle/mezgoodle-bot.svg?branch=master)](https://travis-ci.com/mezgoodle/mezgoodle-bot)
+![Lint Markdown files](https://github.com/mezgoodle/mezgoodle-bot/workflows/Lint%20Markdown%20files/badge.svg)
 
 ## Badges
 
