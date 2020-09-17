@@ -20,8 +20,10 @@ f = {
     'content': base64_content_str
 }
 
-f_resp = requests.put(f'https://api.github.com/repos/{username}/{repo}/contents/{file_}', 
-                        auth=(username, password), 
-                        headers={ "Content-Type": "application/json" }, 
-                        data=json.dumps(f))
+f_resp = requests.put(
+                    f'https://api.github.com/repos/{username}/{repo}/contents/{file_}',
+                    auth=(username, password),
+                    headers={ "Content-Type": "application/json" },
+                    data=json.dumps(f)
+                )
 print(f_resp.json())
