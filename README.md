@@ -6,15 +6,16 @@ Hello everyone! This is the repository of my GitHub bot on Python.
 
 ## Table of contents
 
-- [Project title](#project-title)
+- [Table of contents](#table-of-contents)
 - [Motivation](#motivation)
 - [Build status](#build-status)
 - [Badges](#badges)
 - [Code style](#code-style)
-- [Tech/framework used](#tech-framework-used)
+- [Tech/framework used](#techframework-used)
 - [Features](#features)
 - [Code Example](#code-example)
 - [API Example](#api-example)
+- [Tests](#tests)
 - [Installation](#installation)
 - [Fast usage](#fast-usage)
 - [API](#api)
@@ -96,6 +97,8 @@ async def repo_installation_added(event, gh, *args, **kwargs):
 
 In the folder `examples` you can see how to work with **GitHub API** directly *without* **GitHub App**. [Link](https://github.com/mezgoodle/mezgoodle-bot/blob/master/examples/create_issue/create_issue.py) to the file.
 
+## Tests
+
 ## Installation
 
 1. Clone this repository
@@ -147,8 +150,6 @@ Here I am using [GitHub API](https://developer.github.com/v3/).
 ## Contribute
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](https://github.com/mezgoodle/mezgoodle-bot/blob/master/CONTRIBUTING.md).
-
-> If you want to contribute to this project, so I have problems such as add more examples of work with API and add tests for the bot.
 
 ## Credits
 
