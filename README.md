@@ -66,39 +66,50 @@ Bot can **response** on *installation*, *opening* and *closing* pull-requests an
 - Response on installation
 
 ```python
-@router.register("installation", action="created")
-async def repo_installation_added(event, gh, *args, **kwargs):
-    installation_id = event.data["installation"]["id"]
-    installation_access_token = await apps.get_installation_access_token(
-        gh,
-        installation_id=installation_id,
-        app_id=os.environ.get("GH_APP_ID"),
-        private_key=os.environ.get("GH_PRIVATE_KEY")
-    )
-    sender_name = event.data["sender"]["login"]
-    for repo in event.data["repositories"]:
+"""Installation the bot trigger"""
 
-        repo_full_name = repo["full_name"]
-        response = await gh.post(
-            f'/repos/{repo_full_name}/issues',
-            data={
-                'title': 'Thanks for installing me!',
-                'body': f'You are the best! @{sender_name}\n Also my creator is @mezgoodle. There you can find my body)'
-            },
-            oauth_token=installation_access_token["token"],
-        )
-        issue_url = response["url"]
-        await gh.patch(issue_url,
-                       data={"state": "closed"},
-                       oauth_token=installation_access_token["token"],
-                       )
+import gidgethub.routing
+
+from .utils import get_info
+
+router = gidgethub.routing.Router()
+
+
+@router.register('installation', action='created')
+async def repo_installation_added(event, gh, *args, **kwargs):
+    """Installed bot to repository"""
+    token = await get_info(event, gh)
+    sender_name = event.data['sender']['login']
+    for repo in event.data['repositories']:
+
+        repo_full_name = repo['full_name']
+        if token is not None:
+            response = await gh.post(
+                f'/repos/{repo_full_name}/issues',
+                data={
+                    'title': 'Thanks for installing me!',
+                    'body': f'You are the best! @{sender_name}\n Also my creator is @mezgoodle. \
+                    There you can find my body)'
+                },
+                oauth_token=token['token'],
+            )
+            issue_url = response['url']
+            await gh.patch(
+                issue_url,
+                data={'state': 'closed'},
+                oauth_token=token['token'],
+            )
+        else:
+            await gh.post(f'/repos/{repo_full_name}/issues')
 ```
 
 ## API Example
 
-In the folder `examples` you can see how to work with **GitHub API** directly *without* **GitHub App**. [Link](https://github.com/mezgoodle/mezgoodle-bot/blob/master/examples/create_issue/create_issue.py) to the file.
+In the folder `examples` you can see how to work with **GitHub API** directly *without* **GitHub App**. [Link](https://github.com/mezgoodle/mezgoodle-bot/blob/master/examples) to the folder.
 
 ## Tests
+
+All tests are in [tests](https://github.com/mezgoodle/mezgoodle-bot/tree/master/tests) folder. The results from **Travis CI** are [here](https://travis-ci.com/github/mezgoodle/mezgoodle-bot).
 
 ## Installation
 
@@ -146,7 +157,7 @@ python -m webservice
 
 ## API
 
-Here I am using [GitHub API](https://developer.github.com/v3/).
+Here I am using [GitHub API](https://developer.github.com/v3/). Also look at the [Webhook event payloads](https://developer.github.com/webhooks/event-payloads/).
 
 ## Contribute
 
