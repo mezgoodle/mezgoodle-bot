@@ -1,4 +1,4 @@
-"""Main file of the bot"""
+"""Installation the bot trigger"""
 
 import gidgethub.routing
 

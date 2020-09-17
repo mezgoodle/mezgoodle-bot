@@ -1,4 +1,4 @@
-"""Installation the bot trigger"""
+"""Main file of the bot"""
 
 import asyncio
 import os
