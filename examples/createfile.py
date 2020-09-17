@@ -1,3 +1,4 @@
+"""Create file in GitHub by API"""
 import requests
 import json
 import base64
@@ -23,7 +24,7 @@ f = {
 f_resp = requests.put(
                     f'https://api.github.com/repos/{username}/{repo}/contents/{file_}',
                     auth=(username, password),
-                    headers={ "Content-Type": "application/json" },
+                    headers={"Content-Type": "application/json"},
                     data=json.dumps(f)
                 )
 print(f_resp.json())

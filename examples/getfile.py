@@ -1,3 +1,4 @@
+"""Get file from GitHub by API"""
 import requests
 import base64
 from getpass import getpass

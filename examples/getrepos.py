@@ -1,3 +1,4 @@
+"""Get repositories from GitHub User by API"""
 import requests
 from getpass import getpass
 
