@@ -26,14 +26,14 @@ routes = web.RouteTableDef()
 @routes.get('/', name='home')
 async def handle_get(request):
     """Just check if server is running"""
-		# response webhooks
+    # response webhooks
     return web.Response(text='Hello world')
 
 
 @routes.post('/webhook')
 async def webhook(request):
     """Work with webhooks and start the bot"""
-		# try to start the bot
+    # try to start the bot
     try:
         body = await request.read()
         secret = SECRET
@@ -57,7 +57,7 @@ async def webhook(request):
 
 
 if __name__ == '__main__':
-		# start webhook server
+    # start webhook server
     app = web.Application()
 
     app.router.add_routes(routes)
