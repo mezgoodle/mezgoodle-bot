@@ -2,7 +2,6 @@ language: python
 # cache installed packages
 cache: pip
 python:
-	- "3.7"
   - "3.8"
 # command to install dependencies
 install:
