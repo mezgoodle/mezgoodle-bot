@@ -1,9 +1,11 @@
 """All constants in project"""
 
+# consts for work
 ADMIN_NICKNAME = 'mezgoodle'
 NO_ASSOCIATION = 'NONE'
 LABEL_NAME = 'needs review'
 BOT_NAME = 'mezgoodle-bot'
+# consts for tests
 TEST_REF = 'backport-17ab8f0-3.7'
 TEST_REPO_NAME = 'some_name'
 TEST_NUMBER = 5772

@@ -5,7 +5,6 @@ import os
 import sys
 import traceback
 
-
 import aiohttp
 from aiohttp import web
 import cachetools
@@ -47,8 +46,8 @@ async def webhook(request):
             await router.dispatch(event, gh)
         try:
             print('GH requests remaining:', gh.rate_limit.remaining)
-        except AttributeError:
-            pass
+        except AttributeError as exc:
+            print(exc)
         return web.Response(status=200)
     except Exception as exc:
         traceback.print_exc(file=sys.stderr)
