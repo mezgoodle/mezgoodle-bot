@@ -13,7 +13,6 @@ async def repo_installation_added(event, gh, *args, **kwargs):
     token = await get_info(event, gh)
     sender_name = event.data['sender']['login']
     for repo in event.data['repositories']:
-
         repo_full_name = repo['full_name']
         if token is not None:
             response = await gh.post(

@@ -5,7 +5,6 @@ import os
 import sys
 import traceback
 
-
 import aiohttp
 from aiohttp import web
 import cachetools
@@ -26,12 +25,14 @@ routes = web.RouteTableDef()
 @routes.get('/', name='home')
 async def handle_get(request):
     """Just check if server is running"""
+    # response webhooks
     return web.Response(text='Hello world')
 
 
 @routes.post('/webhook')
 async def webhook(request):
     """Work with webhooks and start the bot"""
+    # try to start the bot
     try:
         body = await request.read()
         secret = SECRET
@@ -45,8 +46,8 @@ async def webhook(request):
             await router.dispatch(event, gh)
         try:
             print('GH requests remaining:', gh.rate_limit.remaining)
-        except AttributeError:
-            pass
+        except AttributeError as exc:
+            print(exc)
         return web.Response(status=200)
     except Exception as exc:
         traceback.print_exc(file=sys.stderr)
@@ -55,6 +56,7 @@ async def webhook(request):
 
 
 if __name__ == '__main__':
+    # start webhook server
     app = web.Application()
 
     app.router.add_routes(routes)
