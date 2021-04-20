@@ -13,7 +13,7 @@ more-itertools==8.5.0
 multidict==4.7.6
 packaging==20.4
 pluggy==0.13.1
-py==1.9.0
+py==1.10.0
 pycodestyle==2.6.0
 pycparser==2.20
 PyJWT==1.7.1
