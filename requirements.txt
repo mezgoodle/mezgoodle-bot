@@ -7,7 +7,7 @@ chardet==3.0.4
 cryptography==3.3.2
 gidgethub==4.1.1
 idna==2.9
-multidict==4.7.6
+multidict==5.1.0
 pycparser==2.20
 PyJWT==1.7.1
 python-dotenv==0.17.0
