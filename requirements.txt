@@ -10,7 +10,7 @@ idna==2.9
 multidict==4.7.6
 pycparser==2.20
 PyJWT==1.7.1
-python-dotenv==0.14.0
+python-dotenv==0.17.0
 six==1.15.0
 uritemplate==3.0.1
 yarl==1.4.2
