@@ -5,7 +5,7 @@ autopep8==1.5.6
 cachetools==4.1.0
 cffi==1.14.5
 chardet==3.0.4
-cryptography==3.3.2
+cryptography==3.4.7
 gidgethub==4.1.1
 idna==2.9
 iniconfig==1.0.1

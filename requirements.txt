@@ -4,7 +4,7 @@ attrs==19.3.0
 cachetools==4.1.0
 cffi==1.14.5
 chardet==3.0.4
-cryptography==3.3.2
+cryptography==3.4.7
 gidgethub==4.1.1
 idna==2.9
 multidict==5.1.0
