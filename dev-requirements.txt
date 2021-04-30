@@ -14,7 +14,7 @@ multidict==5.1.0
 packaging==20.9
 pluggy==0.13.1
 py==1.10.0
-pycodestyle==2.6.0
+pycodestyle==2.7.0
 pycparser==2.20
 PyJWT==1.7.1
 pyparsing==2.4.7
